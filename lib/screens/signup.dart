@@ -21,18 +21,31 @@ class _SignupState extends State<Signup> {
 
   bool _isLoading = false;
 
-  void signup() {
-    // if (_formKey.currentState!.validate()) {
-    _isLoading = true;
-    DbService.signup(_emailController.text, _passwordController.text)
-        .then((value) => {
-              if (value["success"])
-                {_isLoading = false, print("success")}
-              else
-                {print(value["error"]), _isLoading = false}
-            });
+  String error = "";
 
-    // }
+  void signup() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      DbService.signup(_emailController.text, _passwordController.text)
+          .then((value) => {
+                if (value["success"])
+                  {
+                    setState(() {
+                      _isLoading = false;
+                    }),
+                    print("success")
+                  }
+                else
+                  {
+                    setState(() {
+                      error = value["error"];
+                      _isLoading = false;
+                    })
+                  }
+              });
+    }
   }
 
   @override
@@ -60,6 +73,18 @@ class _SignupState extends State<Signup> {
                   key: _formKey,
                   child: Column(
                     children: [
+                      error.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: (Text(
+                                error,
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.error,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                            )
+                          : Container(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: FractionallySizedBox(
