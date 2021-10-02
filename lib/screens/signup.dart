@@ -35,7 +35,7 @@ class _SignupState extends State<Signup> {
                     setState(() {
                       _isLoading = false;
                     }),
-                    print("success")
+                    Navigator.pushNamed(context, "/")
                   }
                 else
                   {
@@ -174,7 +174,9 @@ class _SignupState extends State<Signup> {
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/login");
+                              },
                               child: Text(
                                 "Login",
                                 style: TextStyle(
