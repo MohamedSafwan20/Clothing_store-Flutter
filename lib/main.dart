@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gentleman/config/db.dart';
 import 'package:gentleman/screens/home.dart';
+import 'package:gentleman/screens/login.dart';
+import 'package:gentleman/screens/signup.dart';
 
 void main() {
   runApp(const App());
@@ -15,6 +17,12 @@ class App extends StatelessWidget {
     initializeFirebase();
 
     return MaterialApp(
+      routes: {
+        "/": (context) => const Home(),
+        "/signup": (context) => const Signup(),
+        "/login": (context) => const Login(),
+      },
+      initialRoute: "/login",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),
@@ -26,7 +34,6 @@ class App extends StatelessWidget {
           error: const Color(0xFFE21414),
         ),
       ),
-      home: const Home(),
     );
   }
 }
