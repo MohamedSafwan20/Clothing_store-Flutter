@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
+import 'package:gentleman/services/db_service.dart';
 import 'package:gentleman/widgets/regular_button.dart';
 
 class Signup extends StatefulWidget {
@@ -12,20 +12,27 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
+  bool _isLoading = false;
+
   void signup() {
-    if (_formKey.currentState!.validate()) {
-      print("valid");
-    } else {
-      print("invalid");
-    }
+    // if (_formKey.currentState!.validate()) {
+    _isLoading = true;
+    DbService.signup(_emailController.text, _passwordController.text)
+        .then((value) => {
+              if (value["success"])
+                {_isLoading = false, print("success")}
+              else
+                {print(value["error"]), _isLoading = false}
+            });
+
+    // }
   }
 
   @override
@@ -60,43 +67,17 @@ class _SignupState extends State<Signup> {
                           child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return "Phone number required";
-                              } else if (value.length != 10) {
-                                return "Phone number must be 10 characters long";
+                                return "Email required";
+                              } else if (value.length < 13) {
+                                return "Invalid email";
                               } else {
                                 return null;
                               }
                             },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
+                            controller: _emailController,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: "Phone number"),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: FractionallySizedBox(
-                          widthFactor: 0.8,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "OTP required";
-                              } else {
-                                return null;
-                              }
-                            },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            controller: _otpController,
-                            keyboardType: TextInputType.phone,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(), labelText: "OTP"),
+                                labelText: "Email"),
                           ),
                         ),
                       ),
@@ -108,8 +89,8 @@ class _SignupState extends State<Signup> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Password is required";
-                              } else if (value.length < 8) {
-                                return "Password must be at least 8 characters long";
+                              } else if (value.length < 6) {
+                                return "Password should be at least 6 characters long";
                               } else {
                                 return null;
                               }
@@ -150,10 +131,16 @@ class _SignupState extends State<Signup> {
                       ),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: RegularButton(
-                            text: "Signup",
-                            onPressed: signup,
-                          )),
+                          child: _isLoading
+                              ? const SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: (CircularProgressIndicator()),
+                                )
+                              : (RegularButton(
+                                  text: "Signup",
+                                  onPressed: signup,
+                                ))),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -185,8 +172,7 @@ class _SignupState extends State<Signup> {
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _otpController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
