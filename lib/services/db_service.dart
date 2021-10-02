@@ -9,4 +9,10 @@ class DbService {
         .then((value) => print(value.id))
         .catchError((err) => print(err));
   }
+
+// static void signup() {
+//   FirebaseFirestore.instance
+//       .collection("users")
+//       .add(data)
+// }
 }
