@@ -22,7 +22,7 @@ class App extends StatelessWidget {
         "/signup": (context) => const Signup(),
         "/login": (context) => const Login(),
       },
-      initialRoute: "/login",
+      initialRoute: "/",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),

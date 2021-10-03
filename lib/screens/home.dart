@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gentleman/widgets/category_chips.dart';
+import 'package:gentleman/widgets/navbar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,22 +21,7 @@ class _HomeState extends State<Home> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(
-                        "assets/images/logo.jpg",
-                        fit: BoxFit.contain,
-                        height: 80,
-                        width: 80,
-                      ),
-                    ),
-                  ],
-                )
-              ],
+              children: const [NavBar(), CategoryChips()],
             ),
           ),
         ),
