@@ -33,8 +33,9 @@ class DbService {
         return {"success": true, "error": null};
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == "unknown")
+      if (e.code == "unknown") {
         return {"success": false, "error": "Unknown error"};
+      }
       return {"success": false, "error": e.code};
     }
     return {"success": false, "error": "Server Error"};

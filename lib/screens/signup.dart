@@ -55,17 +55,14 @@ class _SignupState extends State<Signup> {
         child: SizedBox(
           width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                flex: 1,
-                child: Image.network(
-                  "https://image.freepik.com/free-vector/bow-tie-tuxedo-suit-gentleman-fashion-tailor-clothes-vintage-classic-logo-design_57043-572.jpg",
-                  fit: BoxFit.contain,
-                  height: 150,
-                  width: 150,
-                ),
+              Image.asset(
+                "assets/images/logo.jpg",
+                fit: BoxFit.contain,
+                height: 150,
+                width: 150,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),

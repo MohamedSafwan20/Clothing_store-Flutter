@@ -54,8 +54,8 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.network(
-                "https://image.freepik.com/free-vector/bow-tie-tuxedo-suit-gentleman-fashion-tailor-clothes-vintage-classic-logo-design_57043-572.jpg",
+              Image.asset(
+                "assets/images/logo.jpg",
                 fit: BoxFit.contain,
                 height: 150,
                 width: 150,
