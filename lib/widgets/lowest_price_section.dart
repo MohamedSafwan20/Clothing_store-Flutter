@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/widgets/product_card.dart';
 
-class NewArrivalsSection extends StatefulWidget {
-  const NewArrivalsSection({Key? key}) : super(key: key);
+class LowestPriceSection extends StatefulWidget {
+  const LowestPriceSection({Key? key}) : super(key: key);
 
   @override
-  _NewArrivalsSectionState createState() => _NewArrivalsSectionState();
+  _LowestPriceSectionState createState() => _LowestPriceSectionState();
 }
 
-class _NewArrivalsSectionState extends State<NewArrivalsSection> {
+class _LowestPriceSectionState extends State<LowestPriceSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,22 +19,12 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "New Arrivals",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18),
-                ),
-                Text(
-                  "View all",
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
-                ),
-              ],
+            child: Text(
+              "Lowest In Price",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18),
             ),
           ),
           SingleChildScrollView(

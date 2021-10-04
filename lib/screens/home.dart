@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/widgets/category_chips.dart';
+import 'package:gentleman/widgets/lowest_price_section.dart';
 import 'package:gentleman/widgets/navbar.dart';
 import 'package:gentleman/widgets/new_arrivals_section.dart';
 
@@ -21,10 +22,11 @@ class _HomeState extends State<Home> {
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const NavBar(),
-                const CategoryChips(),
-                NewArrivalsSection()
+              children: const [
+                NavBar(),
+                CategoryChips(),
+                NewArrivalsSection(),
+                LowestPriceSection()
               ],
             ),
           ),
