@@ -99,6 +99,8 @@ class _SignupState extends State<Signup> {
                             controller: _emailController,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1.0)),
                                 labelText: "Email"),
                           ),
                         ),
@@ -123,6 +125,8 @@ class _SignupState extends State<Signup> {
                             autocorrect: false,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1.0)),
                                 labelText: "Password"),
                           ),
                         ),
@@ -147,6 +151,8 @@ class _SignupState extends State<Signup> {
                             autocorrect: false,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(width: 1.0)),
                                 labelText: "Confirm Password"),
                           ),
                         ),

@@ -93,7 +93,10 @@ class _LoginState extends State<Login> {
                           },
                           controller: _emailController,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder(), labelText: "Email"),
+                              border: OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1.0)),
+                              labelText: "Email"),
                         ),
                       ),
                     ),
@@ -115,6 +118,8 @@ class _LoginState extends State<Login> {
                           controller: _passwordController,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1.0)),
                               labelText: "Password"),
                         ),
                       ),
