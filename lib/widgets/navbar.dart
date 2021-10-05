@@ -26,7 +26,9 @@ class _NavBarState extends State<NavBar> {
         Row(
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, "/search");
+              },
               icon: Icon(
                 Icons.search,
                 color: Theme.of(context).colorScheme.primary,

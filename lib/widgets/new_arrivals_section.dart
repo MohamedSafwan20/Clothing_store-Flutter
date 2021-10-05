@@ -30,10 +30,22 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
                       fontWeight: FontWeight.w700,
                       fontSize: 18),
                 ),
-                Text(
-                  "View all",
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                InkWell(
+                  onTap: () {},
+                  child: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                      text: "View all",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    WidgetSpan(
+                        child: Icon(
+                      Icons.chevron_right_outlined,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ))
+                  ])),
                 ),
               ],
             ),

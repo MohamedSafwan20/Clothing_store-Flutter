@@ -35,7 +35,7 @@ class _SignupState extends State<Signup> {
                     setState(() {
                       _isLoading = false;
                     }),
-                    Navigator.pushNamed(context, "/")
+                    Navigator.pushReplacementNamed(context, "/")
                   }
                 else
                   {

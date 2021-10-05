@@ -19,12 +19,34 @@ class _LowestPriceSectionState extends State<LowestPriceSection> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-            child: Text(
-              "Lowest In Price",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Lowest In Price",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                      text: "View all",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    WidgetSpan(
+                        child: Icon(
+                      Icons.chevron_right_outlined,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ))
+                  ])),
+                )
+              ],
             ),
           ),
           SingleChildScrollView(
