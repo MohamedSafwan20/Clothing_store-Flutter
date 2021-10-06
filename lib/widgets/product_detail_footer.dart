@@ -42,14 +42,12 @@ class _ProductDetailFooterState extends State<ProductDetailFooter> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                    width: 150,
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: RegularButton(
                       onPressed: () {},
                       text: "Add to Cart",
                     )),
                 Container(
-                    width: 150,
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: RegularButton(
                       onPressed: () {},

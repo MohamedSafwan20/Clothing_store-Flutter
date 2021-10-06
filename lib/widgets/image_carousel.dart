@@ -42,25 +42,25 @@ class _ImageCarouselState extends State<ImageCarousel> {
                       height: 300,
                       width: 300,
                     )),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: images.map((img) {
-            return GestureDetector(
-                onTap: () =>
-                    _carouselController.animateToPage(images.indexOf(img)),
-                child: Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentImgIndex == images.indexOf(img)
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary,
-                  ),
-                ));
-          }).toList(),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: images.map((img) {
+              return Container(
+                width: 8.0,
+                height: 8.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentImgIndex == images.indexOf(img)
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primary,
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ],
     );

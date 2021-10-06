@@ -35,14 +35,18 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, "/my-orders");
+              },
               icon: Icon(
                 Icons.local_mall_outlined,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, "/cart");
+              },
               icon: Icon(
                 Icons.shopping_cart_outlined,
                 color: Theme.of(context).colorScheme.primary,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gentleman/config/db.dart';
+import 'package:gentleman/screens/cart.dart';
 import 'package:gentleman/screens/home.dart';
 import 'package:gentleman/screens/login.dart';
+import 'package:gentleman/screens/my_orders.dart';
 import 'package:gentleman/screens/product_details.dart';
 import 'package:gentleman/screens/product_result.dart';
 import 'package:gentleman/screens/search.dart';
@@ -27,8 +29,10 @@ class App extends StatelessWidget {
         "/search": (context) => const Search(),
         "/product-result": (context) => const ProductResult(),
         "/product-details": (context) => const ProductDetails(),
+        "/cart": (context) => const Cart(),
+        "/my-orders": (context) => const MyOrders(),
       },
-      initialRoute: "/product-details",
+      initialRoute: "/my-orders",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),
