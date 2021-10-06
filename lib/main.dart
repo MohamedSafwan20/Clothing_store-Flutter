@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gentleman/config/db.dart';
 import 'package:gentleman/screens/home.dart';
 import 'package:gentleman/screens/login.dart';
+import 'package:gentleman/screens/product_details.dart';
 import 'package:gentleman/screens/product_result.dart';
 import 'package:gentleman/screens/search.dart';
 import 'package:gentleman/screens/signup.dart';
@@ -25,8 +26,9 @@ class App extends StatelessWidget {
         "/login": (context) => const Login(),
         "/search": (context) => const Search(),
         "/product-result": (context) => const ProductResult(),
+        "/product-details": (context) => const ProductDetails(),
       },
-      initialRoute: "/product-result",
+      initialRoute: "/product-details",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),

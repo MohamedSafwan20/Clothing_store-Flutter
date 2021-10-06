@@ -69,4 +69,10 @@ class _SearchState extends State<Search> {
       )),
     );
   }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 }

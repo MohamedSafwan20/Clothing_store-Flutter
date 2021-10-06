@@ -22,10 +22,12 @@ class _ProductResultState extends State<ProductResult> {
               Expanded(
                 flex: 1,
                 child: ListView.builder(
-                    itemCount: 20,
+                    itemCount: 2,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, "/product-details");
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 2.0),
@@ -33,6 +35,7 @@ class _ProductResultState extends State<ProductResult> {
                             height: 120,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +52,17 @@ class _ProductResultState extends State<ProductResult> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text("Name",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 4.0),
+                                            child: Text("Name",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary)),
+                                          ),
                                           Text("Price",
                                               style: TextStyle(
                                                   color: Theme.of(context)
