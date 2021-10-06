@@ -28,7 +28,8 @@ class _MyOrdersState extends State<MyOrders> {
               iconTheme: IconThemeData(color: Theme.of(context).canvasColor),
               title: Text(
                 "My Orders",
-                style: TextStyle(color: Theme.of(context).canvasColor),
+                style: TextStyle(
+                    color: Theme.of(context).canvasColor, fontSize: 16),
               ),
               centerTitle: true,
             ),
