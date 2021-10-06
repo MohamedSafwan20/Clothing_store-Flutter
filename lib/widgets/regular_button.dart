@@ -9,18 +9,16 @@ class RegularButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-        widthFactor: 0.7,
-        child: TextButton(
-            style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(15.0),
-                backgroundColor: Theme.of(context).colorScheme.primary),
-            onPressed: onPressed,
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            )));
+    return TextButton(
+        style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(15.0),
+            backgroundColor: Theme.of(context).colorScheme.primary),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ));
   }
 }

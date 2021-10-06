@@ -165,10 +165,13 @@ class _SignupState extends State<Signup> {
                                   height: 30,
                                   child: (CircularProgressIndicator()),
                                 )
-                              : (RegularButton(
-                                  text: "Signup",
-                                  onPressed: signup,
-                                ))),
+                              : FractionallySizedBox(
+                                  widthFactor: 0.7,
+                                  child: (RegularButton(
+                                    text: "Signup",
+                                    onPressed: signup,
+                                  )),
+                                )),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gentleman/widgets/navbar.dart';
 
 class ProductResult extends StatefulWidget {
@@ -29,8 +30,8 @@ class _ProductResultState extends State<ProductResult> {
                           Navigator.pushNamed(context, "/product-details");
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 2.0),
+                          padding: const EdgeInsets.only(
+                              left: 10.0, bottom: 5.0, right: 10.0),
                           child: SizedBox(
                             height: 120,
                             child: Row(
@@ -69,11 +70,30 @@ class _ProductResultState extends State<ProductResult> {
                                                       .colorScheme
                                                       .secondary,
                                                   fontSize: 14)),
-                                          Text("Description",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Theme.of(context)
-                                                      .disabledColor)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 12.0),
+                                            child: RichText(
+                                              text: TextSpan(children: [
+                                                const WidgetSpan(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 3.0),
+                                                    child: Icon(
+                                                      Icons.thumb_up,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                    text: "100K",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary))
+                                              ]),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),

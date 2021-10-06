@@ -132,10 +132,13 @@ class _LoginState extends State<Login> {
                                 height: 30,
                                 child: (CircularProgressIndicator()),
                               )
-                            : (RegularButton(
-                                text: "Login",
-                                onPressed: login,
-                              ))),
+                            : FractionallySizedBox(
+                                widthFactor: 0.7,
+                                child: (RegularButton(
+                                  text: "Login",
+                                  onPressed: login,
+                                )),
+                              )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
