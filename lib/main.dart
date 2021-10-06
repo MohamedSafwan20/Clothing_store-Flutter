@@ -37,6 +37,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),
         disabledColor: const Color(0xFFB5B5B5),
+        canvasColor: const Color(0xEEEEEEEE),
         colorScheme:
             ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(
           primary: const Color(0xFF262525),

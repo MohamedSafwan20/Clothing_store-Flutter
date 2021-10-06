@@ -17,7 +17,6 @@ class _ProductResultCardState extends State<ProductResultCard> {
       child: Padding(
         padding: const EdgeInsets.only(left: 10.0, bottom: 5.0, right: 10.0),
         child: SizedBox(
-          height: 120,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,

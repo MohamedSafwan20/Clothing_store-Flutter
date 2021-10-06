@@ -32,7 +32,7 @@ class _ProductDetailBodyState extends State<ProductDetailBody> {
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius sapien in ligula dignissim auctor. Nunc congue condimentum nulla, et pharetra metus finibus rhoncus. Nunc dictum nisi facilisis, volutpat mi volutpat, interdum dui. Maecenas quis nisi condimentum, venenatis metus a, tempus turpis. Sed sit amet dui fringilla, condimentum felis non, maximus nulla. Aenean vitae lectus diam. Aenean molestie eget justo nec eleifend."
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius sapien in ligula dignissim auctor. Nunc congue condimentum nulla, et pharetra metus finibus rhoncus. Nunc dictum nisi facilisis, volutpat mi volutpat, interdum dui. Maecenas quis nisi condimentum, venenatis metus a, tempus turpis. Sed sit amet dui fringilla, condimentum felis non, maximus nulla. Aenean vitae lectus diam. Aenean molestie eget justo nec eleifend."
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec varius sapien in ligula dignissim auctor. Nunc congue condimentum nulla, et pharetra metus finibus rhoncus. Nunc dictum nisi facilisis, volutpat mi volutpat, interdum dui. Maecenas quis nisi condimentum, venenatis metus a, tempus turpis. Sed sit amet dui fringilla, condimentum felis non, maximus nulla. Aenean vitae lectus diam. Aenean molestie eget justo nec eleifend.",
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16)),
+              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
         ],
       ),
     );
