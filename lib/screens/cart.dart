@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gentleman/widgets/navbar.dart';
 import 'package:gentleman/widgets/product_result_card.dart';
 
 class Cart extends StatefulWidget {
@@ -13,14 +12,21 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      appBar: AppBar(
+        title: Text(
+          "Cart",
+          style: TextStyle(color: Theme.of(context).canvasColor, fontSize: 16),
+        ),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Theme.of(context).canvasColor),
+      ),
+      body: const SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
             width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [NavBar(), ProductResultCard()],
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+              child: ProductResultCard(),
             ),
           ),
         ),
