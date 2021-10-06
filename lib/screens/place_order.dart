@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gentleman/widgets/address_section.dart';
+import 'package:gentleman/widgets/payment_section.dart';
+import 'package:gentleman/widgets/place_order_footer.dart';
 
 class PlaceOrder extends StatefulWidget {
   const PlaceOrder({Key? key}) : super(key: key);
@@ -25,7 +27,11 @@ class _PlaceOrderState extends State<PlaceOrder> {
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [AddressSection()],
+            children: const [
+              AddressSection(),
+              PaymentsSection(),
+              PlaceOrderFooter()
+            ],
           ),
         ),
       ),
