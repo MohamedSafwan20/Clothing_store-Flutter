@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gentleman/widgets/product_card.dart';
 
 class NewArrivalsSection extends StatefulWidget {
-  const NewArrivalsSection({Key? key}) : super(key: key);
+  const NewArrivalsSection({Key? key, required this.productData})
+      : super(key: key);
+
+  final List productData;
 
   @override
   _NewArrivalsSectionState createState() => _NewArrivalsSectionState();
@@ -50,19 +53,16 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
               ],
             ),
           ),
-          SingleChildScrollView(
-            child: GridView.count(
+          GridView.count(
               physics: const ScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,
-              children: const [
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
-              ],
-            ),
-          )
+              children: widget.productData.map((product) {
+                return ProductCard(
+                    name: product["product_name"],
+                    price: product["product_price"],
+                    description: product["product_description"]);
+              }).toList()),
         ],
       ),
     );

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
 import 'package:gentleman/widgets/regular_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -26,21 +28,25 @@ class _LoginState extends State<Login> {
       });
       DbService.login(_emailController.text, _passwordController.text)
           .then((value) => {
-                if (value["success"])
-                  {
-                    setState(() {
-                      _isLoading = false;
-                    }),
-                    Navigator.pushReplacementNamed(context, "/")
-                  }
-                else
-                  {
-                    setState(() {
-                      error = value["error"];
-                      _isLoading = false;
+        if (value["success"])
+          {
+                    SharedPreferences.getInstance().then((value) {
+                      value.setString(
+                          "userId", FirebaseAuth.instance.currentUser!.uid);
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      Navigator.pushReplacementNamed(context, "/");
                     })
                   }
-              });
+                else
+          {
+            setState(() {
+              error = value["error"];
+              _isLoading = false;
+            })
+          }
+      });
     }
   }
 
@@ -67,15 +73,15 @@ class _LoginState extends State<Login> {
                   children: [
                     error.isNotEmpty
                         ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: (Text(
-                              error,
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
-                            )),
-                          )
+                      padding: const EdgeInsets.all(8.0),
+                      child: (Text(
+                        error,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      )),
+                    )
                         : Container(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -128,17 +134,17 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: _isLoading
                             ? const SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: (CircularProgressIndicator()),
-                              )
+                          width: 30,
+                          height: 30,
+                          child: (CircularProgressIndicator()),
+                        )
                             : FractionallySizedBox(
-                                widthFactor: 0.7,
-                                child: (RegularButton(
-                                  text: "Login",
-                                  onPressed: login,
-                                )),
-                              )),
+                          widthFactor: 0.7,
+                          child: (RegularButton(
+                            text: "Login",
+                            onPressed: login,
+                          )),
+                        )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -154,7 +160,7 @@ class _LoginState extends State<Login> {
                               "Create Account",
                               style: TextStyle(
                                   color:
-                                      Theme.of(context).colorScheme.secondary),
+                                  Theme.of(context).colorScheme.secondary),
                             ))
                       ],
                     )

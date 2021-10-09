@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gentleman/widgets/product_card.dart';
 
 class CategorySection extends StatefulWidget {
   const CategorySection({Key? key, required this.category}) : super(key: key);
@@ -57,10 +56,10 @@ class _CategorySectionState extends State<CategorySection> {
               crossAxisCount: 2,
               shrinkWrap: true,
               children: const [
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
               ],
             ),
           )

@@ -55,10 +55,10 @@ class _LowestPriceSectionState extends State<LowestPriceSection> {
               crossAxisCount: 2,
               shrinkWrap: true,
               children: const [
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
               ],
             ),
           )

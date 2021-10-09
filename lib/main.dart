@@ -1,5 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gentleman/config/db.dart';
 import 'package:gentleman/screens/cart.dart';
 import 'package:gentleman/screens/home.dart';
 import 'package:gentleman/screens/login.dart';
@@ -11,7 +11,11 @@ import 'package:gentleman/screens/product_result.dart';
 import 'package:gentleman/screens/search.dart';
 import 'package:gentleman/screens/signup.dart';
 
-void main() {
+void main() async {
+  //Initialize firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const App());
 }
 
@@ -20,9 +24,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initializing Firestore
-    initializeFirebase();
-
     return MaterialApp(
       routes: {
         "/": (context) => const Home(),
@@ -42,7 +43,7 @@ class App extends StatelessWidget {
         indicatorColor: const Color(0xFF27D308),
         disabledColor: const Color(0xFFB5B5B5),
         colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(
+        ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(
           background: const Color(0xFFF0F0F0),
           primary: const Color(0xFF262525),
           secondary: const Color(0xffeaa53b),
