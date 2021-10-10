@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gentleman/widgets/product_card.dart';
 
 class CategorySection extends StatefulWidget {
-  const CategorySection({Key? key, required this.category}) : super(key: key);
+  const CategorySection(
+      {Key? key, required this.productData, required this.category})
+      : super(key: key);
 
+  final List productData;
   final String category;
 
   @override
@@ -50,19 +54,30 @@ class _CategorySectionState extends State<CategorySection> {
               ],
             ),
           ),
-          SingleChildScrollView(
-            child: GridView.count(
-              physics: const ScrollPhysics(),
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              children: const [
-                // ProductCard(),
-                // ProductCard(),
-                // ProductCard(),
-                // ProductCard(),
-              ],
-            ),
-          )
+          widget.productData.length > 0
+              ? GridView.count(
+                  physics: const ScrollPhysics(),
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  children: widget.productData.map((product) {
+                    return ProductCard(
+                      name: product["product_name"],
+                      price: product["product_price"],
+                      description: product["product_description"],
+                      image: product["product_images"][0],
+                    );
+                  }).toList())
+              : Padding(
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: Center(
+                      child: Text(
+                    "Coming Soon..",
+                    style: TextStyle(
+                        color: Theme.of(context).disabledColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
+                  )),
+                ),
         ],
       ),
     );

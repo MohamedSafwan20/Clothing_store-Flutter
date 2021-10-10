@@ -50,4 +50,13 @@ class DbService {
 
     return res.docs;
   }
+
+  static Future getProductsByCategory(String category) async {
+    QuerySnapshot res = await FirebaseFirestore.instance
+        .collection("products")
+        .where("product_category", isEqualTo: category)
+        .get();
+
+    return res.docs;
+  }
 }

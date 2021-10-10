@@ -137,13 +137,240 @@ class _HomeState extends State<Home> {
                       },
                     )
                   : _selectedCategory == "Shirts"
-                      ? CategorySection(category: _selectedCategory)
+                      ? FutureBuilder(
+                          future: DbService.getProductsByCategory(
+                              _selectedCategory),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData) {
+                                return CategorySection(
+                                  category: _selectedCategory,
+                                  productData: snapshot.data,
+                                );
+                              } else {
+                                return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height - 150,
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        child: RegularButton(
+                                            onPressed: () {
+                                              setState(() {});
+                                            },
+                                            text: "Refresh"),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0),
+                                        child: Text(
+                                          "Error occurred, Please refresh the page.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                                );
+                              }
+                            } else {
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height - 150,
+                                child: const Center(child: Loading()),
+                              );
+                            }
+                          },
+                        )
                       : _selectedCategory == "Tshirts"
-                          ? CategorySection(category: _selectedCategory)
+                          ? FutureBuilder(
+                              future: DbService.getProductsByCategory(
+                                  _selectedCategory),
+                              builder: (context, AsyncSnapshot snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasData) {
+                                    return CategorySection(
+                                      category: _selectedCategory,
+                                      productData: snapshot.data,
+                                    );
+                                  } else {
+                                    return SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              150,
+                                      child: Center(
+                                          child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            child: RegularButton(
+                                                onPressed: () {
+                                                  setState(() {});
+                                                },
+                                                text: "Refresh"),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Text(
+                                              "Error occurred, Please refresh the page.",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .error,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                    );
+                                  }
+                                } else {
+                                  return SizedBox(
+                                    height: MediaQuery.of(context).size.height -
+                                        150,
+                                    child: const Center(child: Loading()),
+                                  );
+                                }
+                              },
+                            )
                           : _selectedCategory == "Pants"
-                              ? CategorySection(category: _selectedCategory)
+                              ? FutureBuilder(
+                                  future: DbService.getProductsByCategory(
+                                      _selectedCategory),
+                                  builder: (context, AsyncSnapshot snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      if (snapshot.hasData) {
+                                        return CategorySection(
+                                          category: _selectedCategory,
+                                          productData: snapshot.data,
+                                        );
+                                      } else {
+                                        return SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height -
+                                              150,
+                                          child: Center(
+                                              child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                child: RegularButton(
+                                                    onPressed: () {
+                                                      setState(() {});
+                                                    },
+                                                    text: "Refresh"),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10.0),
+                                                child: Text(
+                                                  "Error occurred, Please refresh the page.",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .error,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              )
+                                            ],
+                                          )),
+                                        );
+                                      }
+                                    } else {
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height -
+                                                150,
+                                        child: const Center(child: Loading()),
+                                      );
+                                    }
+                                  },
+                                )
                               : _selectedCategory == "Shorts"
-                                  ? CategorySection(category: _selectedCategory)
+                                  ? FutureBuilder(
+                                      future: DbService.getProductsByCategory(
+                                          _selectedCategory),
+                                      builder:
+                                          (context, AsyncSnapshot snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          if (snapshot.hasData) {
+                                            return CategorySection(
+                                              category: _selectedCategory,
+                                              productData: snapshot.data,
+                                            );
+                                          } else {
+                                            return SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  150,
+                                              child: Center(
+                                                  child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    child: RegularButton(
+                                                        onPressed: () {
+                                                          setState(() {});
+                                                        },
+                                                        text: "Refresh"),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 10.0),
+                                                    child: Text(
+                                                      "Error occurred, Please refresh the page.",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .error,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
+                                            );
+                                          }
+                                        } else {
+                                          return SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                150,
+                                            child:
+                                                const Center(child: Loading()),
+                                          );
+                                        }
+                                      },
+                                    )
                                   : Container()
             ],
           ),
