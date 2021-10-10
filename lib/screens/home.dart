@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
 import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/category_section.dart';
+import 'package:gentleman/widgets/loading.dart';
 import 'package:gentleman/widgets/lowest_price_section.dart';
 import 'package:gentleman/widgets/navbar.dart';
 import 'package:gentleman/widgets/new_arrivals_section.dart';
+import 'package:gentleman/widgets/regular_button.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -95,10 +97,42 @@ class _HomeState extends State<Home> {
                               ],
                             );
                           } else {
-                            return const Center(child: Text("Error"));
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height - 150,
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    child: RegularButton(
+                                        onPressed: () {
+                                          setState(() {});
+                                        },
+                                        text: "Refresh"),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Text(
+                                      "Error occurred, Please refresh the page.",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )
+                                ],
+                              )),
+                            );
                           }
                         } else {
-                          return const Center(child: Text("Loading"));
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height - 150,
+                            child: const Center(child: Loading()),
+                          );
                         }
                       },
                     )
