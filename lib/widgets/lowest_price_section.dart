@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gentleman/widgets/product_card.dart';
 
 class LowestPriceSection extends StatefulWidget {
-  const LowestPriceSection({Key? key}) : super(key: key);
+  const LowestPriceSection({Key? key, required this.productData})
+      : super(key: key);
+
+  final List productData;
 
   @override
   _LowestPriceSectionState createState() => _LowestPriceSectionState();
@@ -49,19 +52,18 @@ class _LowestPriceSectionState extends State<LowestPriceSection> {
               ],
             ),
           ),
-          SingleChildScrollView(
-            child: GridView.count(
+          GridView.count(
               physics: const ScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,
-              children: const [
-                // ProductCard(),
-                // ProductCard(),
-                // ProductCard(),
-                // ProductCard(),
-              ],
-            ),
-          )
+              children: widget.productData.map((product) {
+                return ProductCard(
+                  name: product["product_name"],
+                  price: product["product_price"],
+                  description: product["product_description"],
+                  image: product["product_images"][0],
+                );
+              }).toList()),
         ],
       ),
     );

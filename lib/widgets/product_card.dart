@@ -5,12 +5,14 @@ class ProductCard extends StatefulWidget {
       {Key? key,
       required this.name,
       required this.price,
-      required this.description})
+      required this.description,
+      required this.image})
       : super(key: key);
 
   final String name;
   final String price;
   final String description;
+  final String image;
 
   @override
   _ProductCardState createState() => _ProductCardState();
@@ -27,7 +29,12 @@ class _ProductCardState extends State<ProductCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset("assets/images/product_img.jpg"),
+              Image.network(
+                widget.image,
+                height: 100,
+                fit: BoxFit.fill,
+                width: double.infinity,
+              ),
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Column(
