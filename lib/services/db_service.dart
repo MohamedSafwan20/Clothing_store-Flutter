@@ -73,4 +73,13 @@ class DbService {
 
     return res.docs;
   }
+
+  static Future getProductResults(String productName) async {
+    QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+        .collection("products")
+        .where("product_name", isGreaterThanOrEqualTo: productName)
+        .where("product_name", isLessThanOrEqualTo: productName + '\uf8ff')
+        .get();
+    return res.docs;
+  }
 }

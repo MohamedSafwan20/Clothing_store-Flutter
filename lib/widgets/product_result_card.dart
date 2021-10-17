@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProductResultCard extends StatefulWidget {
-  const ProductResultCard({Key? key}) : super(key: key);
+  const ProductResultCard({Key? key, required this.productData})
+      : super(key: key);
+
+  final Map productData;
 
   @override
   _ProductResultCardState createState() => _ProductResultCardState();
@@ -24,8 +27,8 @@ class _ProductResultCardState extends State<ProductResultCard> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    "assets/images/product_img.jpg",
+                  Image.network(
+                    widget.productData["product_images"][0],
                     fit: BoxFit.contain,
                     width: 135,
                   ),
@@ -36,14 +39,14 @@ class _ProductResultCardState extends State<ProductResultCard> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
-                          child: Text("Name",
+                          child: Text(widget.productData["product_name"],
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                   color:
                                       Theme.of(context).colorScheme.primary)),
                         ),
-                        Text("Price",
+                        Text("₹${widget.productData['product_price']}",
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.secondary,
                                 fontSize: 14)),
@@ -61,7 +64,7 @@ class _ProductResultCardState extends State<ProductResultCard> {
                                 ),
                               ),
                               TextSpan(
-                                  text: "100K",
+                                  text: widget.productData["likes"],
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme

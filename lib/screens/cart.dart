@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gentleman/widgets/product_result_card.dart';
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -26,7 +25,8 @@ class _CartState extends State<Cart> {
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              child: ProductResultCard(),
+              // child: ProductResultCard(),
+              child: Text("hi"),
             ),
           ),
         ),
