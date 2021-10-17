@@ -51,7 +51,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                             color: Theme.of(context).colorScheme.primary)),
-                    Text(widget.price,
+                    Text("₹${widget.price}",
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 14)),

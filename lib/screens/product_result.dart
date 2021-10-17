@@ -39,7 +39,7 @@ class _ProductResultState extends State<ProductResult> {
                               itemBuilder: (context, index) {
                                 return ProductResultCard(
                                   productData: snapshot.data[index].data(),
-                                );
+                                  id: snapshot.data[index].id);
                               }),
                         )
                       ],

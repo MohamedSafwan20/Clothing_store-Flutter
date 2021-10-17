@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductResultCard extends StatefulWidget {
-  const ProductResultCard({Key? key, required this.productData})
+  const ProductResultCard(
+      {Key? key, required this.productData, required this.id})
       : super(key: key);
 
   final Map productData;
+  final String id;
 
   @override
   _ProductResultCardState createState() => _ProductResultCardState();
@@ -16,7 +18,8 @@ class _ProductResultCardState extends State<ProductResultCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, "/product-details");
+        Navigator.pushNamed(context, "/product-details",
+            arguments: {"id": widget.id});
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 10.0, bottom: 5.0, right: 10.0),

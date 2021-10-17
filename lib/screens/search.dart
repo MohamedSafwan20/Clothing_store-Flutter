@@ -75,6 +75,14 @@ class _SearchState extends State<Search> {
                                       SizedBox(
                                         width: 250,
                                         child: TextField(
+                                          onEditingComplete: () {
+                                            Navigator.pushNamed(context,
+                                                "/product-result", arguments: {
+                                              "product_name":
+                                                  _searchController.text.trim()
+                                            });
+                                          },
+                                          textInputAction: TextInputAction.go,
                                           controller: _searchController,
                                           onChanged: (value) {
                                             filterSearch(value, snapshot.data);
