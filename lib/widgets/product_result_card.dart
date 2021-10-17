@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductResultCard extends StatefulWidget {
@@ -39,12 +40,16 @@ class _ProductResultCardState extends State<ProductResultCard> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4.0),
-                          child: Text(widget.productData["product_name"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color:
-                                      Theme.of(context).colorScheme.primary)),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width - 200,
+                            child: Text(widget.productData["product_name"],
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
+                          ),
                         ),
                         Text("₹${widget.productData['product_price']}",
                             style: TextStyle(
