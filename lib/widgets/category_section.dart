@@ -54,13 +54,14 @@ class _CategorySectionState extends State<CategorySection> {
               ],
             ),
           ),
-          widget.productData.length > 0
+          widget.productData.isNotEmpty
               ? GridView.count(
                   physics: const ScrollPhysics(),
                   crossAxisCount: 2,
                   shrinkWrap: true,
                   children: widget.productData.map((product) {
                     return ProductCard(
+                      id: product.id,
                       name: product["product_name"],
                       price: product["product_price"],
                       description: product["product_description"],
@@ -68,7 +69,7 @@ class _CategorySectionState extends State<CategorySection> {
                     );
                   }).toList())
               : Padding(
-                  padding: EdgeInsets.only(top: 30.0),
+            padding: const EdgeInsets.only(top: 30.0),
                   child: Center(
                       child: Text(
                     "Coming Soon..",

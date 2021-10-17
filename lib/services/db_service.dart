@@ -59,4 +59,18 @@ class DbService {
 
     return res.docs;
   }
+
+  static Future getProductDetails(String id) async {
+    DocumentSnapshot<Map<String, dynamic>> res =
+        await FirebaseFirestore.instance.collection("products").doc(id).get();
+
+    return res.data();
+  }
+
+  static Future getSearchKeywords() async {
+    QuerySnapshot<Map<String, dynamic>> res =
+        await FirebaseFirestore.instance.collection("products").get();
+
+    return res.docs;
+  }
 }

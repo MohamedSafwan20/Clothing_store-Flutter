@@ -59,6 +59,7 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
               shrinkWrap: true,
               children: widget.productData.map((product) {
                 return ProductCard(
+                  id: product.id,
                   name: product["product_name"],
                   price: product["product_price"],
                   description: product["product_description"],

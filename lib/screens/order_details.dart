@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gentleman/widgets/image_carousel.dart';
 import 'package:gentleman/widgets/order_status.dart';
-import 'package:gentleman/widgets/product_detail_body.dart';
 
 class OrderDetails extends StatefulWidget {
   const OrderDetails({Key? key}) : super(key: key);
@@ -29,8 +27,8 @@ class _OrderDetailsState extends State<OrderDetails> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ImageCarousel(),
-              const ProductDetailBody(),
+              // const ImageCarousel(),
+              // const ProductDetailBody(),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
                 child: Text("Order Status",

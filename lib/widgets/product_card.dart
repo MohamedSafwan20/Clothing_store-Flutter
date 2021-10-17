@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class ProductCard extends StatefulWidget {
   const ProductCard(
       {Key? key,
+      required this.id,
       required this.name,
       required this.price,
       required this.description,
       required this.image})
       : super(key: key);
 
+  final String id;
   final String name;
   final String price;
   final String description;
@@ -24,7 +26,10 @@ class _ProductCardState extends State<ProductCard> {
     return FractionallySizedBox(
       widthFactor: 0.93,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, "/product-details",
+              arguments: {"id": widget.id});
+        },
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

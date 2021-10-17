@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/widgets/error.dart';
+import 'package:gentleman/widgets/loading.dart';
 import 'package:gentleman/widgets/search_item_list.dart';
 
 class Search extends StatefulWidget {
@@ -57,13 +60,27 @@ class _SearchState extends State<Search> {
                 ),
               ),
             ),
-            const Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.only(left: 12),
-                child: SearchItemList(),
-              ),
-            )
+            FutureBuilder(
+                future: DbService.getSearchKeywords(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: SearchItemList(
+                            keywords: snapshot.data,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const Error();
+                    }
+                  } else {
+                    return const Loading();
+                  }
+                })
           ],
         ),
       )),

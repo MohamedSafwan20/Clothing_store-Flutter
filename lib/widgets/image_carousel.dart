@@ -2,20 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class ImageCarousel extends StatefulWidget {
-  const ImageCarousel({Key? key}) : super(key: key);
+  const ImageCarousel({Key? key, required this.images}) : super(key: key);
+
+  final List images;
 
   @override
   _ImageCarouselState createState() => _ImageCarouselState();
 }
 
 class _ImageCarouselState extends State<ImageCarousel> {
-  List<String> images = [
-    "assets/images/product_img.jpg",
-    "assets/images/product2.jpg",
-    "assets/images/product3.jpg",
-    "assets/images/product4.jpg",
-  ];
-
   final CarouselController _carouselController = CarouselController();
   int _currentImgIndex = 0;
 
@@ -34,11 +29,11 @@ class _ImageCarouselState extends State<ImageCarousel> {
                 scrollPhysics: const BouncingScrollPhysics(),
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true),
-            itemCount: images.length,
+            itemCount: widget.images.length,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) =>
-                    Image.asset(
-                      images[itemIndex],
+                    Image.network(
+                      widget.images[itemIndex],
                       height: 300,
                       width: 300,
                     )),
@@ -46,7 +41,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
           padding: const EdgeInsets.only(top: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: images.map((img) {
+            children: widget.images.map((img) {
               return Container(
                 width: 8.0,
                 height: 8.0,
@@ -54,7 +49,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _currentImgIndex == images.indexOf(img)
+                  color: _currentImgIndex == widget.images.indexOf(img)
                       ? Theme.of(context).colorScheme.secondary
                       : Theme.of(context).colorScheme.primary,
                 ),
