@@ -104,6 +104,10 @@ class DbService {
     DocumentSnapshot<Map<String, dynamic>> res =
         await FirebaseFirestore.instance.collection("cart").doc(userId).get();
 
+    if (res.data() == null) {
+      return {"products": []};
+    }
+
     return res.data();
   }
 

@@ -36,35 +36,59 @@ class _CartState extends State<Cart> {
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: snapshot.data['products'].length,
-                          itemBuilder: (context, index) {
-                            return FutureBuilder(
-                                future: DbService.getRefData(
-                                    snapshot.data["products"][index]),
-                                builder:
-                                    (context, AsyncSnapshot productSnapshot) {
-                                  if (productSnapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (productSnapshot.hasData) {
-                                      return Column(
-                                        children: [
-                                          ProductResultCard(
-                                            productData: productSnapshot.data,
-                                            id: snapshot
-                                                .data["products"][index].id,
-                                            page: "cart",
-                                          ),
-                                        ],
-                                      );
+                      if (snapshot.data['products'].length > 0) {
+                        return ListView.builder(
+                            itemCount: snapshot.data['products'].length,
+                            itemBuilder: (context, index) {
+                              return FutureBuilder(
+                                  future: DbService.getRefData(
+                                      snapshot.data["products"][index]),
+                                  builder:
+                                      (context, AsyncSnapshot productSnapshot) {
+                                    if (productSnapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      if (productSnapshot.hasData) {
+                                        return Column(
+                                          children: [
+                                            ProductResultCard(
+                                              productData: productSnapshot.data,
+                                              id: snapshot
+                                                  .data["products"][index].id,
+                                              page: "cart",
+                                            ),
+                                          ],
+                                        );
+                                      } else {
+                                        return const Error();
+                                      }
                                     } else {
-                                      return const Error();
+                                      return const Loading();
                                     }
-                                  } else {
-                                    return const Loading();
-                                  }
-                                });
-                          });
+                                  });
+                            });
+                      } else {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.network(
+                                "https://cdn-icons-png.flaticon.com/512/102/102661.png",
+                                width: 50,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Text(
+                                  "Your cart is empty.",
+                                  style: TextStyle(
+                                      color: Theme.of(context).disabledColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }
                     } else {
                       return const Error();
                     }

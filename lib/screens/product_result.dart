@@ -270,36 +270,29 @@ class _ProductResultState extends State<ProductResult> {
                                                                             .id);
                                                                   }),
                                                         )
-                                                      : SizedBox(
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height -
-                                                              150,
-                                                          child: Center(
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Image.network(
-                                                                  "https://img.icons8.com/color/48/000000/nothing-found.png",
-                                                                  width: 80,
-                                                                ),
-                                                                Text(
-                                                                  "Results Not Found!",
-                                                                  style: TextStyle(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .disabledColor,
-                                                                      fontSize:
-                                                                          18,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                                )
-                                                              ],
-                                                            ),
+                                                      : Center(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Image.network(
+                                                                "https://img.icons8.com/color/48/000000/nothing-found.png",
+                                                                width: 80,
+                                                              ),
+                                                              Text(
+                                                                "Results Not Found!",
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .disabledColor,
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )
+                                                            ],
                                                           ),
                                                         )
                                                 ],
