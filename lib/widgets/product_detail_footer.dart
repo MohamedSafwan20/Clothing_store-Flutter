@@ -16,7 +16,6 @@ class _ProductDetailFooterState extends State<ProductDetailFooter> {
   String _likes = "";
 
   bool _isAddToCartLoading = false;
-  bool _isBuyNowLoading = false;
 
   @override
   void initState() {
@@ -110,17 +109,12 @@ class _ProductDetailFooterState extends State<ProductDetailFooter> {
                           )),
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: _isBuyNowLoading
-                        ? Container(
-                            width: 30,
-                            height: 20,
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: const CircularProgressIndicator(),
-                          )
-                        : RegularButton(
-                            onPressed: () {},
-                            text: "Buy Now",
-                          )),
+                    child: RegularButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/place-order");
+                      },
+                      text: "Buy Now",
+                    )),
               ],
             )
           ],
