@@ -35,7 +35,12 @@ class _CategorySectionState extends State<CategorySection> {
                       fontSize: 18),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, "/product-result", arguments: {
+                      "page": widget.category,
+                      "category": widget.category
+                    });
+                  },
                   child: RichText(
                       text: TextSpan(children: [
                     TextSpan(

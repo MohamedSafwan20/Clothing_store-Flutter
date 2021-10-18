@@ -14,6 +14,10 @@ class LowestPriceSection extends StatefulWidget {
 class _LowestPriceSectionState extends State<LowestPriceSection> {
   @override
   Widget build(BuildContext context) {
+    List products = widget.productData
+        .where((product) => widget.productData.indexOf(product) <= 3)
+        .toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Column(
@@ -33,7 +37,10 @@ class _LowestPriceSectionState extends State<LowestPriceSection> {
                       fontSize: 18),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, "/product-result",
+                        arguments: {"page": "lowestPriceSection"});
+                  },
                   child: RichText(
                       text: TextSpan(children: [
                     TextSpan(
@@ -45,9 +52,9 @@ class _LowestPriceSectionState extends State<LowestPriceSection> {
                         child: Icon(
                       Icons.chevron_right_outlined,
                       size: 16,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ))
-                  ])),
+                              color: Theme.of(context).colorScheme.secondary,
+                            ))
+                      ])),
                 )
               ],
             ),
@@ -56,7 +63,7 @@ class _LowestPriceSectionState extends State<LowestPriceSection> {
               physics: const ScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,
-              children: widget.productData.map((product) {
+              children: products.map((product) {
                 return ProductCard(
                   id: product.id,
                   name: product["product_name"],

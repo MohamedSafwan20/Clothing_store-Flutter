@@ -36,7 +36,7 @@ class DbService {
   static Future getLatestProducts() async {
     QuerySnapshot res = await FirebaseFirestore.instance
         .collection("products")
-        .orderBy("created_at")
+        .orderBy("created_at", descending: true)
         .get();
 
     return res.docs;

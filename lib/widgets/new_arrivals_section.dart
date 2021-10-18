@@ -15,6 +15,10 @@ class NewArrivalsSection extends StatefulWidget {
 class _NewArrivalsSectionState extends State<NewArrivalsSection> {
   @override
   Widget build(BuildContext context) {
+    List products = widget.productData
+        .where((product) => widget.productData.indexOf(product) <= 3)
+        .toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Column(
@@ -34,7 +38,10 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
                       fontSize: 18),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, "/product-result",
+                        arguments: {"page": "newArrivalsSection"});
+                  },
                   child: RichText(
                       text: TextSpan(children: [
                     TextSpan(
@@ -46,9 +53,9 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
                         child: Icon(
                       Icons.chevron_right_outlined,
                       size: 16,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ))
-                  ])),
+                              color: Theme.of(context).colorScheme.secondary,
+                            ))
+                      ])),
                 ),
               ],
             ),
@@ -57,7 +64,7 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
               physics: const ScrollPhysics(),
               crossAxisCount: 2,
               shrinkWrap: true,
-              children: widget.productData.map((product) {
+              children: products.map((product) {
                 return ProductCard(
                   id: product.id,
                   name: product["product_name"],
