@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/regular_button.dart';
 
 class ProductDetailFooter extends StatefulWidget {
@@ -14,6 +15,9 @@ class ProductDetailFooter extends StatefulWidget {
 class _ProductDetailFooterState extends State<ProductDetailFooter> {
   String _likes = "";
 
+  bool _isAddToCartLoading = false;
+  bool _isBuyNowLoading = false;
+
   @override
   void initState() {
     DbService.getProductDetails(widget.id).then((value) {
@@ -22,6 +26,40 @@ class _ProductDetailFooterState extends State<ProductDetailFooter> {
       });
     });
     super.initState();
+  }
+
+  void addToCart() {
+    setState(() {
+      _isAddToCartLoading = true;
+    });
+    DbService.addToCart(UserService.getCurrentUserId(), widget.id)
+        .then((value) {
+      if (value) {
+        setState(() {
+          _isAddToCartLoading = false;
+        });
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Product Successfully Added to cart.',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      } else {
+        setState(() {
+          _isAddToCartLoading = false;
+        });
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Adding to cart failed.',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    });
   }
 
   @override
@@ -59,16 +97,30 @@ class _ProductDetailFooterState extends State<ProductDetailFooter> {
               children: [
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: RegularButton(
-                      onPressed: () {},
-                      text: "Add to Cart",
-                    )),
+                    child: _isAddToCartLoading
+                        ? Container(
+                            width: 30,
+                            height: 20,
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: const CircularProgressIndicator(),
+                          )
+                        : RegularButton(
+                            onPressed: addToCart,
+                            text: "Add to Cart",
+                          )),
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: RegularButton(
-                      onPressed: () {},
-                      text: "Buy Now",
-                    )),
+                    child: _isBuyNowLoading
+                        ? Container(
+                            width: 30,
+                            height: 20,
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: const CircularProgressIndicator(),
+                          )
+                        : RegularButton(
+                            onPressed: () {},
+                            text: "Buy Now",
+                          )),
               ],
             )
           ],

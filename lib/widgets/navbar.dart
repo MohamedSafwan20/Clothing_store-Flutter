@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -49,6 +51,20 @@ class _NavBarState extends State<NavBar> {
               },
               icon: Icon(
                 Icons.shopping_cart_outlined,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                SharedPreferences.getInstance().then((value) {
+                  value.remove("userId");
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login', (Route<dynamic> route) => false);
+                });
+              },
+              icon: Icon(
+                Icons.logout,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),

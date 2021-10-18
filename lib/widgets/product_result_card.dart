@@ -1,19 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
 
 class ProductResultCard extends StatefulWidget {
   const ProductResultCard(
-      {Key? key, required this.productData, required this.id})
+      {Key? key, required this.productData, required this.id, this.page = ""})
       : super(key: key);
 
   final Map productData;
   final String id;
+  final String page;
 
   @override
   _ProductResultCardState createState() => _ProductResultCardState();
 }
 
 class _ProductResultCardState extends State<ProductResultCard> {
+  void deleteFromCart() {
+    DbService.deleteFromCart(UserService.getCurrentUserId(), widget.id)
+        .then((value) {
+      if (value) {
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Product Successfully Deleted from cart',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      } else {
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Deleting from cart failed!',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -22,7 +50,7 @@ class _ProductResultCardState extends State<ProductResultCard> {
             arguments: {"id": widget.id});
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 10.0, bottom: 10.0, right: 10.0),
+        padding: const EdgeInsets.only(left: 8, bottom: 5.0),
         child: Column(
           children: [
             Row(
@@ -38,7 +66,7 @@ class _ProductResultCardState extends State<ProductResultCard> {
                       width: 135,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -59,7 +87,7 @@ class _ProductResultCardState extends State<ProductResultCard> {
                           Text("₹${widget.productData['product_price']}",
                               style: TextStyle(
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                  Theme.of(context).colorScheme.secondary,
                                   fontSize: 14)),
                           Padding(
                             padding: const EdgeInsets.only(top: 12.0),
@@ -88,7 +116,13 @@ class _ProductResultCardState extends State<ProductResultCard> {
                     ),
                   ],
                 ),
-                const Icon(Icons.chevron_right_outlined)
+                widget.page == "cart"
+                    ? IconButton(
+                        onPressed: deleteFromCart,
+                        icon: const Icon(Icons.delete),
+                        color: Theme.of(context).colorScheme.error,
+                      )
+                    : const Icon(Icons.chevron_right_outlined)
               ],
             ),
             Padding(

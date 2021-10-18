@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
-import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/category_section.dart';
 import 'package:gentleman/widgets/error.dart';
 import 'package:gentleman/widgets/loading.dart';
@@ -20,17 +19,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   String _selectedCategory = "All";
-
-  @override
-  void initState() {
-    UserService.isUserAuthenticated().then((value) {
-      if (value == null) {
-        Navigator.pushReplacementNamed(context, "/login");
-      }
-    });
-
-    super.initState();
-  }
 
   List<String> chipsItems = ["All", "Shirts", "Tshirts", "Pants", "Shorts"];
 

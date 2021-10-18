@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
+import 'package:gentleman/widgets/error.dart';
+import 'package:gentleman/widgets/loading.dart';
+import 'package:gentleman/widgets/product_result_card.dart';
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -19,14 +24,55 @@ class _CartState extends State<Cart> {
         centerTitle: true,
         iconTheme: IconThemeData(color: Theme.of(context).canvasColor),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
-              // child: ProductResultCard(),
-              child: Text("hi"),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: FutureBuilder(
+                future: DbService.getCartItems(UserService.getCurrentUserId()),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data['products'].length,
+                          itemBuilder: (context, index) {
+                            return FutureBuilder(
+                                future: DbService.getRefData(
+                                    snapshot.data["products"][index]),
+                                builder:
+                                    (context, AsyncSnapshot productSnapshot) {
+                                  if (productSnapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (productSnapshot.hasData) {
+                                      return Column(
+                                        children: [
+                                          ProductResultCard(
+                                            productData: productSnapshot.data,
+                                            id: snapshot
+                                                .data["products"][index].id,
+                                            page: "cart",
+                                          ),
+                                        ],
+                                      );
+                                    } else {
+                                      return const Error();
+                                    }
+                                  } else {
+                                    return const Loading();
+                                  }
+                                });
+                          });
+                    } else {
+                      return const Error();
+                    }
+                  } else {
+                    return const Loading();
+                  }
+                },
+              ),
             ),
           ),
         ),

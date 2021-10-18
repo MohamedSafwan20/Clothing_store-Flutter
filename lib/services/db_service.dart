@@ -75,11 +75,54 @@ class DbService {
   }
 
   static Future getProductResults(String productName) async {
+    String capitalizedProductName =
+        productName.replaceFirst(productName[0], productName[0].toUpperCase());
+
     QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
         .collection("products")
-        .where("product_name", isGreaterThanOrEqualTo: productName)
-        .where("product_name", isLessThanOrEqualTo: productName + '\uf8ff')
+        .where("product_name", isGreaterThanOrEqualTo: capitalizedProductName)
+        .where("product_name",
+            isLessThanOrEqualTo: capitalizedProductName + '\uf8ff')
         .get();
     return res.docs;
+  }
+
+  static Future addToCart(String userId, String productId) async {
+    try {
+      await FirebaseFirestore.instance.collection("cart").doc(userId).set({
+        "products": FieldValue.arrayUnion(
+            [FirebaseFirestore.instance.doc("/products/$productId")])
+      }, SetOptions(merge: true));
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future getCartItems(String userId) async {
+    DocumentSnapshot<Map<String, dynamic>> res =
+        await FirebaseFirestore.instance.collection("cart").doc(userId).get();
+
+    return res.data();
+  }
+
+  static Future getRefData(DocumentReference ref) async {
+    DocumentSnapshot<Object?> res = await ref.get();
+
+    return res.data();
+  }
+
+  static Future deleteFromCart(String userId, String productId) async {
+    try {
+      await FirebaseFirestore.instance.collection("cart").doc(userId).update({
+        "products": FieldValue.arrayRemove(
+            [FirebaseFirestore.instance.doc("/products/$productId")])
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 }

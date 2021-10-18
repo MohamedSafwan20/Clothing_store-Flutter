@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/regular_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +22,17 @@ class _LoginState extends State<Login> {
 
   String error = "";
 
+  @override
+  void initState() {
+    UserService.isUserAuthenticated().then((value) {
+      if (value != null) {
+        Navigator.pushReplacementNamed(context, "/");
+      }
+    });
+
+    super.initState();
+  }
+
   void login() {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -28,8 +40,8 @@ class _LoginState extends State<Login> {
       });
       DbService.login(_emailController.text, _passwordController.text)
           .then((value) => {
-        if (value["success"])
-          {
+                if (value["success"])
+                  {
                     SharedPreferences.getInstance().then((value) {
                       value.setString(
                           "userId", FirebaseAuth.instance.currentUser!.uid);
