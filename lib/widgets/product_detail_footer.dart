@@ -111,7 +111,8 @@ class _ProductDetailFooterState extends State<ProductDetailFooter> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: RegularButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/place-order");
+                        Navigator.pushNamed(context, "/place-order",
+                            arguments: {"productId": widget.id});
                       },
                       text: "Buy Now",
                     )),
