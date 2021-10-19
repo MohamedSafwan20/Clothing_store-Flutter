@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
 import 'package:gentleman/services/user_service.dart';
+import 'package:gentleman/utils/utils.dart';
 import 'package:gentleman/widgets/order_status.dart';
 import 'package:gentleman/widgets/regular_button.dart';
 
@@ -14,9 +15,39 @@ class OrderDetails extends StatefulWidget {
 class _OrderDetailsState extends State<OrderDetails> {
   late Map navigatorData;
 
+  bool _isLoading = false;
+
   void cancelOrder() {
+    setState(() {
+      _isLoading = true;
+    });
+
     DbService.deleteOrder(
-        UserService.getCurrentUserId(), navigatorData["productData"]);
+            UserService.getCurrentUserId(), navigatorData["productData"])
+        .then((value) {
+      if (value) {
+        setState(() {
+          _isLoading = false;
+        });
+        Utils.showSnackbar(
+            context: context,
+            text: "Order Successfully cancelled.",
+            textColor: Theme.of(context).colorScheme.secondary);
+        Navigator.pushReplacementNamed(context, "/my-orders");
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        Utils.showSnackbar(
+            context: context,
+            text: "Couldn't cancel order, Please try again later.",
+            textColor: Theme.of(context).colorScheme.error);
+      }
+    }).catchError((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   @override
@@ -67,21 +98,34 @@ class _OrderDetailsState extends State<OrderDetails> {
                 alignment: Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: FractionallySizedBox(
-                    widthFactor: 0.5,
-                    child: OutlinedButton(
-                      onPressed: cancelOrder,
-                      child: const Align(
-                          alignment: Alignment.center,
-                          child: Text("Cancel Order")),
-                      style: OutlinedButton.styleFrom(
-                        primary: Theme.of(context).colorScheme.error,
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.error,
+                  child: _isLoading
+                      ? Container(
+                          width: 40,
+                          height: 30,
+                          padding: const EdgeInsets.only(right: 10.0),
+                          child: const CircularProgressIndicator())
+                      : FractionallySizedBox(
+                          widthFactor: 0.5,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Utils.simpleDialog(
+                                  context: context,
+                                  heading: "Are you sure?",
+                                  body:
+                                      "This order will be cancelled and deleted permanently.",
+                                  positiveBtnFunction: cancelOrder);
+                            },
+                            child: const Align(
+                                alignment: Alignment.center,
+                                child: Text("Cancel Order")),
+                            style: OutlinedButton.styleFrom(
+                              primary: Theme.of(context).colorScheme.error,
+                              side: BorderSide(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ),
               )
             ],

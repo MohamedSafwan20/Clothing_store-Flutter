@@ -47,4 +47,18 @@ class Utils {
       },
     );
   }
+
+  static showSnackbar(
+      {required BuildContext context,
+      required String text,
+      required Color textColor}) {
+    final snackbar = SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        text,
+        style: TextStyle(color: textColor),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
 }
