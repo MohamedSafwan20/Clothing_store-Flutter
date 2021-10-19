@@ -97,8 +97,8 @@ class _OrderDetailsState extends State<OrderDetails> {
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: _isLoading
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: _isLoading
                         ? Container(
                             width: 40,
                             height: 30,

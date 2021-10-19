@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
 import 'package:gentleman/services/user_service.dart';
+import 'package:gentleman/utils/utils.dart';
 import 'package:gentleman/widgets/image_carousel.dart';
 import 'package:gentleman/widgets/loading.dart';
 import 'package:gentleman/widgets/navbar.dart';
@@ -16,6 +18,8 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  User currentUser = FirebaseAuth.instance.currentUser!;
+
   int _selectedSize = 0;
 
   bool _isAddToCartLoading = false;
@@ -23,6 +27,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void verifyEmail() {
+    currentUser.sendEmailVerification();
+    Utils.showSnackbar(
+        context: context,
+        text:
+            "We sent a verification mail to your gmail. Please verify it, then login again.",
+        textColor: Theme.of(context).colorScheme.secondary);
+    Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
   }
 
   void addToCart(String productId) {
@@ -101,7 +115,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   children: [
                                     Padding(
                                         padding:
-                                            const EdgeInsets.only(bottom: 8.0),
+                                        const EdgeInsets.only(bottom: 8.0),
                                         child: Row(
                                           children: [
                                             Padding(
@@ -119,8 +133,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                   border: Border.all(
                                                       color: Colors.red),
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
+                                                  BorderRadius.circular(
+                                                      10)),
                                               child: ToggleSwitch(
                                                 minHeight: 40.0,
                                                 minWidth: 50.0,
@@ -132,11 +146,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                     .colorScheme
                                                     .secondary,
                                                 inactiveBgColor:
-                                                    Colors.transparent,
+                                                Colors.transparent,
                                                 inactiveFgColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
                                                 totalSwitches: sizes.length,
                                                 initialLabelIndex: 0,
                                                 labels: sizes.map((size) {
@@ -182,30 +196,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                             height: MediaQuery.of(context).size.height - 150,
                             child: Center(
                                 child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  child: RegularButton(
-                                      onPressed: () {
-                                        setState(() {});
-                                      },
-                                      text: "Refresh"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  child: Text(
-                                    "Error occurred, Please refresh the page.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color:
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      child: RegularButton(
+                                          onPressed: () {
+                                            setState(() {});
+                                          },
+                                          text: "Refresh"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
+                                      child: Text(
+                                        "Error occurred, Please refresh the page.",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color:
                                             Theme.of(context).colorScheme.error,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )
-                              ],
-                            )),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )
+                                  ],
+                                )),
                           );
                         }
                       } else {
@@ -243,7 +257,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: Icon(
                                     Icons.thumb_up,
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.primary,
                                     size: 18,
                                   ),
                                 ),
@@ -262,34 +276,46 @@ class _ProductDetailsState extends State<ProductDetails> {
                           children: [
                             Container(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
+                                const EdgeInsets.symmetric(horizontal: 5),
                                 child: _isAddToCartLoading
                                     ? Container(
-                                        width: 30,
-                                        height: 20,
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      )
+                                  width: 30,
+                                  height: 20,
+                                  padding:
+                                  const EdgeInsets.only(right: 10.0),
+                                  child:
+                                  const CircularProgressIndicator(),
+                                )
                                     : RegularButton(
-                                        onPressed: () {
-                                          addToCart(navigatorData["id"]);
-                                        },
-                                        text: "Add to Cart",
-                                      )),
+                                  onPressed: () {
+                                    addToCart(navigatorData["id"]);
+                                  },
+                                  text: "Add to Cart",
+                                )),
                             Container(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
+                                const EdgeInsets.symmetric(horizontal: 5),
                                 child: RegularButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, "/place-order",
-                                        arguments: {
-                                          "productId": navigatorData["id"],
-                                          "productSize":
-                                              snapshot.data["product_size"]
-                                                  [_selectedSize]
-                                        });
+                                    if (currentUser.emailVerified) {
+                                      Navigator.pushNamed(
+                                          context, "/place-order",
+                                          arguments: {
+                                            "productId": navigatorData["id"],
+                                            "productSize":
+                                                snapshot.data["product_size"]
+                                                    [_selectedSize]
+                                          });
+                                    } else {
+                                      Utils.simpleDialog(
+                                          context: context,
+                                          heading: "Verify Email",
+                                          body:
+                                              "You need to verify your email before purchasing.",
+                                          positiveBtnFunction: verifyEmail,
+                                          positiveBtnText: "Verify Email",
+                                          negativeBtnText: "Go Back");
+                                    }
                                   },
                                   text: "Buy Now",
                                 )),

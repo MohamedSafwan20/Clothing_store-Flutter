@@ -80,7 +80,7 @@ class _MyOrdersState extends State<MyOrders> {
                     );
                   }
                 } else {
-                  return Loading();
+                  return const Loading();
                 }
               },
             )));
