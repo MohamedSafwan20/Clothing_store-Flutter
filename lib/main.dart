@@ -10,6 +10,7 @@ import 'package:gentleman/screens/product_details.dart';
 import 'package:gentleman/screens/product_result.dart';
 import 'package:gentleman/screens/search.dart';
 import 'package:gentleman/screens/signup.dart';
+import 'package:gentleman/screens/successful_order.dart';
 
 void main() async {
   //Initialize firebase
@@ -36,8 +37,9 @@ class App extends StatelessWidget {
         "/my-orders": (context) => const MyOrders(),
         "/order-details": (context) => const OrderDetails(),
         "/place-order": (context) => const PlaceOrder(),
+        "/success-order": (context) => const SuccessfulOrder(),
       },
-      initialRoute: "/login",
+      initialRoute: "/success-order",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),

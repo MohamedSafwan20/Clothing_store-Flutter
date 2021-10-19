@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
 
 class DbService {
   static Future<Map<String, dynamic>> signup(
@@ -137,15 +138,22 @@ class DbService {
       String paymentMode,
       String productId,
       String productSize) async {
-    // try {
-    //   await FirebaseFirestore.instance.collection("cart").doc(userId).set({
-    //     "products": FieldValue.arrayUnion(
-    //         [FirebaseFirestore.instance.doc("/products/$productId")])
-    //   }, SetOptions(merge: true));
-    //
-    //   return true;
-    // } catch (_) {
-    //   return false;
-    // }
+    try {
+      await FirebaseFirestore.instance.collection("orders").add({
+        "buyer_address": buyerAddress,
+        "buyer_name": buyerName,
+        "buyer_phone": buyerPhone,
+        "payment_method": paymentMode,
+        "product_id": FirebaseFirestore.instance.doc("/products/$productId"),
+        "product_size": productSize,
+        "status": "PICKED UP",
+        "order_no": const Uuid().v1(),
+        "created_at": DateTime.now(),
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 }

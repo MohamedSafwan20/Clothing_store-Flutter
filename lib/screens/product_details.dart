@@ -56,6 +56,15 @@ class _ProductDetailsState extends State<ProductDetails> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
+    }).catchError((_) {
+      final snackbar = SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: Text(
+          'Adding to cart failed.',
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     });
   }
 
@@ -216,82 +225,89 @@ class _ProductDetailsState extends State<ProductDetails> {
             alignment: Alignment.bottomRight,
             height: 65,
             padding: const EdgeInsets.only(bottom: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: FutureBuilder(
-                      future: DbService.getProductDetails(navigatorData["id"]),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            return RichText(
-                              text: TextSpan(children: [
-                                WidgetSpan(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: Icon(
-                                      Icons.thumb_up,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      size: 18,
-                                    ),
+            child: FutureBuilder(
+              future: DbService.getProductDetails(navigatorData["id"]),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: RichText(
+                            text: TextSpan(children: [
+                              WidgetSpan(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 3.0),
+                                  child: Icon(
+                                    Icons.thumb_up,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    size: 18,
                                   ),
                                 ),
-                                TextSpan(
-                                    text: snapshot.data["likes"],
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary))
-                              ]),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        } else {
-                          return Container(
-                              width: 30,
-                              height: 20,
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: const CircularProgressIndicator());
-                        }
-                      },
-                    )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: _isAddToCartLoading
-                            ? Container(
-                                width: 30,
-                                height: 20,
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: const CircularProgressIndicator(),
-                              )
-                            : RegularButton(
-                                onPressed: () {
-                                  addToCart(navigatorData["id"]);
-                                },
-                                text: "Add to Cart",
-                              )),
-                    Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: RegularButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/place-order",
-                                arguments: {
-                                  "productId": navigatorData["id"],
-                                  "productSize": _selectedSize
-                                });
-                          },
-                          text: "Buy Now",
-                        )),
-                  ],
-                )
-              ],
+                              ),
+                              TextSpan(
+                                  text: snapshot.data["likes"],
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary))
+                            ]),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: _isAddToCartLoading
+                                    ? Container(
+                                        width: 30,
+                                        height: 20,
+                                        padding:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child:
+                                            const CircularProgressIndicator(),
+                                      )
+                                    : RegularButton(
+                                        onPressed: () {
+                                          addToCart(navigatorData["id"]);
+                                        },
+                                        text: "Add to Cart",
+                                      )),
+                            Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: RegularButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, "/place-order",
+                                        arguments: {
+                                          "productId": navigatorData["id"],
+                                          "productSize":
+                                              snapshot.data["product_size"]
+                                                  [_selectedSize]
+                                        });
+                                  },
+                                  text: "Buy Now",
+                                )),
+                          ],
+                        )
+                      ],
+                    );
+                  } else {
+                    return Container();
+                  }
+                } else {
+                  return Container(
+                      width: 30,
+                      height: 20,
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: const CircularProgressIndicator());
+                }
+              },
             )));
   }
 }

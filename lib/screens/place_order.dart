@@ -26,9 +26,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
   late Map navigatorData;
 
   void placeOrder() {
-    print(navigatorData["productSize"]);
     if (_formKey.currentState!.validate()) {
       String paymentMode;
+
       switch (_currentPaymentOption) {
         case 0:
           paymentMode = "GPAY";
@@ -43,8 +43,36 @@ class _PlaceOrderState extends State<PlaceOrder> {
           paymentMode = "";
       }
 
-      // DbService.addOrder(_addressController.text, _fullNameController.text,
-      //     _phoneNoController.text, paymentMode, navigatorData["productId"], productSize);
+      DbService.addOrder(
+              _addressController.text,
+              _fullNameController.text,
+              _phoneNoController.text,
+              paymentMode,
+              navigatorData["productId"],
+              navigatorData["productSize"])
+          .then((value) {
+        if (value) {
+          Navigator.pushReplacementNamed(context, "/success-order");
+        } else {
+          final snackbar = SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text(
+              "Couldn't place order.",
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+      }).catchError((_) {
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Something went wrong, Please try again later.',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      });
     }
   }
 
