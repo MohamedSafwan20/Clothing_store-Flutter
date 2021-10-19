@@ -129,4 +129,23 @@ class DbService {
       return false;
     }
   }
+
+  static Future addOrder(
+      String buyerAddress,
+      String buyerName,
+      String buyerPhone,
+      String paymentMode,
+      String productId,
+      String productSize) async {
+    // try {
+    //   await FirebaseFirestore.instance.collection("cart").doc(userId).set({
+    //     "products": FieldValue.arrayUnion(
+    //         [FirebaseFirestore.instance.doc("/products/$productId")])
+    //   }, SetOptions(merge: true));
+    //
+    //   return true;
+    // } catch (_) {
+    //   return false;
+    // }
+  }
 }

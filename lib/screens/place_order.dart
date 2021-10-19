@@ -21,19 +21,36 @@ class _PlaceOrderState extends State<PlaceOrder> {
 
   final _formKey = GlobalKey<FormState>();
 
-  int _currentPaymentOption = 0;
+  int _currentPaymentOption = 2;
+
+  late Map navigatorData;
 
   void placeOrder() {
+    print(navigatorData["productSize"]);
     if (_formKey.currentState!.validate()) {
-      print("valid");
-    } else {
-      print("invalid");
+      String paymentMode;
+      switch (_currentPaymentOption) {
+        case 0:
+          paymentMode = "GPAY";
+          break;
+        case 1:
+          paymentMode = "PAYTM";
+          break;
+        case 2:
+          paymentMode = "COD";
+          break;
+        default:
+          paymentMode = "";
+      }
+
+      // DbService.addOrder(_addressController.text, _fullNameController.text,
+      //     _phoneNoController.text, paymentMode, navigatorData["productId"], productSize);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Map navigatorData = ModalRoute.of(context)!.settings.arguments as Map;
+    navigatorData = ModalRoute.of(context)!.settings.arguments as Map;
 
     return Scaffold(
       appBar: AppBar(
@@ -314,126 +331,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                       child: ListTile(
                                         onTap: () {
                                           setState(() {
-                                            _currentPaymentOption = 0;
-                                          });
-                                        },
-                                        leading: Radio(
-                                          value: _currentPaymentOption,
-                                          activeColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          groupValue: 0,
-                                          onChanged: (int? value) {
-                                            setState(() {
-                                              _currentPaymentOption = 0;
-                                            });
-                                          },
-                                        ),
-                                        title: Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8.0),
-                                              child: Image.asset(
-                                                "assets/images/gpay-logo.png",
-                                                height: 30,
-                                                width: 30,
-                                              ),
-                                            ),
-                                            const Text(
-                                              "GPay",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                  child: FractionallySizedBox(
-                                    widthFactor: 0.9,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Theme.of(context)
-                                                  .disabledColor),
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Theme.of(context)
-                                                  .disabledColor,
-                                              blurRadius: 2.0,
-                                            ),
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: ListTile(
-                                        onTap: () {
-                                          setState(() {
-                                            _currentPaymentOption = 1;
-                                          });
-                                        },
-                                        leading: Radio(
-                                          value: _currentPaymentOption,
-                                          activeColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          groupValue: 1,
-                                          onChanged: (int? value) {
-                                            setState(() {
-                                              _currentPaymentOption = 1;
-                                            });
-                                          },
-                                        ),
-                                        title: Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8.0),
-                                              child: Image.asset(
-                                                "assets/images/paytm-logo.png",
-                                                height: 30,
-                                                width: 30,
-                                              ),
-                                            ),
-                                            const Text(
-                                              "Paytm",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                  child: FractionallySizedBox(
-                                    widthFactor: 0.9,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Theme.of(context)
-                                                  .disabledColor),
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Theme.of(context)
-                                                  .disabledColor,
-                                              blurRadius: 2.0,
-                                            ),
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: ListTile(
-                                        onTap: () {
-                                          setState(() {
                                             _currentPaymentOption = 2;
                                           });
                                         },
@@ -464,6 +361,134 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                               "Cash On Delivery",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child: FractionallySizedBox(
+                                    widthFactor: 0.9,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Theme.of(context)
+                                                  .disabledColor),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Theme.of(context)
+                                                  .disabledColor,
+                                              blurRadius: 2.0,
+                                            ),
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: ListTile(
+                                        // onTap: () {
+                                        //   setState(() {
+                                        //     _currentPaymentOption = 0;
+                                        //   });
+                                        // },
+                                        leading: Radio(
+                                          value: _currentPaymentOption,
+                                          activeColor: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          groupValue: 0,
+                                          onChanged: (int? value) {
+                                            // setState(() {
+                                            //   _currentPaymentOption = 0;
+                                            // });
+                                          },
+                                        ),
+                                        title: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: Image.asset(
+                                                "assets/images/gpay-logo.png",
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                            ),
+                                            Text(
+                                              "GPay (Coming Soon)",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .disabledColor),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child: FractionallySizedBox(
+                                    widthFactor: 0.9,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Theme.of(context)
+                                                  .disabledColor),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Theme.of(context)
+                                                  .disabledColor,
+                                              blurRadius: 2.0,
+                                            ),
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: ListTile(
+                                        onTap: () {
+                                          // setState(() {
+                                          //   _currentPaymentOption = 1;
+                                          // });
+                                        },
+                                        leading: Radio(
+                                          value: _currentPaymentOption,
+                                          activeColor: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          groupValue: 1,
+                                          onChanged: (int? value) {
+                                            // setState(() {
+                                            //   _currentPaymentOption = 1;
+                                            // });
+                                          },
+                                        ),
+                                        title: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8.0),
+                                              child: Image.asset(
+                                                "assets/images/paytm-logo.png",
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Paytm (Coming Soon)",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .disabledColor),
                                             ),
                                           ],
                                         ),

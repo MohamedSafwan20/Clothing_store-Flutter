@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/image_carousel.dart';
 import 'package:gentleman/widgets/loading.dart';
 import 'package:gentleman/widgets/navbar.dart';
-import 'package:gentleman/widgets/product_detail_body.dart';
-import 'package:gentleman/widgets/product_detail_footer.dart';
 import 'package:gentleman/widgets/regular_button.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key}) : super(key: key);
@@ -16,6 +16,49 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  int _selectedSize = 0;
+
+  bool _isAddToCartLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void addToCart(String productId) {
+    setState(() {
+      _isAddToCartLoading = true;
+    });
+    DbService.addToCart(UserService.getCurrentUserId(), productId)
+        .then((value) {
+      if (value) {
+        setState(() {
+          _isAddToCartLoading = false;
+        });
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Product Successfully Added to cart.',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      } else {
+        setState(() {
+          _isAddToCartLoading = false;
+        });
+        final snackbar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            'Adding to cart failed.',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Map navigatorData = ModalRoute.of(context)!.settings.arguments as Map;
@@ -35,13 +78,93 @@ class _ProductDetailsState extends State<ProductDetails> {
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         if (snapshot.hasData) {
+                          List sizes = snapshot.data["product_size"];
+
                           return Column(
                             children: [
                               ImageCarousel(
                                 images: snapshot.data["product_images"],
                               ),
-                              ProductDetailBody(
-                                productData: snapshot.data,
+                              Padding(
+                                padding: const EdgeInsets.all(30.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10.0),
+                                              child: Text("Size : ",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                      fontSize: 17)),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.red),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: ToggleSwitch(
+                                                minHeight: 40.0,
+                                                minWidth: 50.0,
+                                                borderWidth: 0.0,
+                                                activeBgColor: const [
+                                                  Color(0x55e0e0e0)
+                                                ],
+                                                activeFgColor: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                inactiveBgColor:
+                                                    Colors.transparent,
+                                                inactiveFgColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                totalSwitches: sizes.length,
+                                                initialLabelIndex: 0,
+                                                labels: sizes.map((size) {
+                                                  return size.toString();
+                                                }).toList(),
+                                                onToggle: (index) {
+                                                  _selectedSize = index;
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                    Text(snapshot.data["product_name"],
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary)),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Text(
+                                          "₹${snapshot.data["product_price"]}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              fontSize: 18)),
+                                    ),
+                                    Text(snapshot.data["product_description"],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14)),
+                                  ],
+                                ),
                               )
                             ],
                           );
@@ -50,30 +173,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                             height: MediaQuery.of(context).size.height - 150,
                             child: Center(
                                 child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  child: RegularButton(
-                                      onPressed: () {
-                                        setState(() {});
-                                      },
-                                      text: "Refresh"),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  child: Text(
-                                    "Error occurred, Please refresh the page.",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color:
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      child: RegularButton(
+                                          onPressed: () {
+                                            setState(() {});
+                                          },
+                                          text: "Refresh"),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
+                                      child: Text(
+                                        "Error occurred, Please refresh the page.",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color:
                                             Theme.of(context).colorScheme.error,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                )
-                              ],
-                            )),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )
+                                  ],
+                                )),
                           );
                         }
                       } else {
@@ -89,8 +212,86 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
           ),
         ),
-        bottomNavigationBar: ProductDetailFooter(
-          id: navigatorData["id"],
-        ));
+        bottomNavigationBar: Container(
+            alignment: Alignment.bottomRight,
+            height: 65,
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: FutureBuilder(
+                      future: DbService.getProductDetails(navigatorData["id"]),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) {
+                            return RichText(
+                              text: TextSpan(children: [
+                                WidgetSpan(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 3.0),
+                                    child: Icon(
+                                      Icons.thumb_up,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                                TextSpan(
+                                    text: snapshot.data["likes"],
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary))
+                              ]),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        } else {
+                          return Container(
+                              width: 30,
+                              height: 20,
+                              padding: const EdgeInsets.only(right: 10.0),
+                              child: const CircularProgressIndicator());
+                        }
+                      },
+                    )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: _isAddToCartLoading
+                            ? Container(
+                                width: 30,
+                                height: 20,
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: const CircularProgressIndicator(),
+                              )
+                            : RegularButton(
+                                onPressed: () {
+                                  addToCart(navigatorData["id"]);
+                                },
+                                text: "Add to Cart",
+                              )),
+                    Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: RegularButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/place-order",
+                                arguments: {
+                                  "productId": navigatorData["id"],
+                                  "productSize": _selectedSize
+                                });
+                          },
+                          text: "Buy Now",
+                        )),
+                  ],
+                )
+              ],
+            )));
   }
 }
