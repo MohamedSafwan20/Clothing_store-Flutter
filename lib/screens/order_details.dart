@@ -99,34 +99,37 @@ class _OrderDetailsState extends State<OrderDetails> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: _isLoading
-                      ? Container(
-                          width: 40,
-                          height: 30,
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: const CircularProgressIndicator())
-                      : FractionallySizedBox(
-                          widthFactor: 0.5,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Utils.simpleDialog(
-                                  context: context,
-                                  heading: "Are you sure?",
-                                  body:
-                                      "This order will be cancelled and deleted permanently.",
-                                  positiveBtnFunction: cancelOrder);
-                            },
-                            child: const Align(
-                                alignment: Alignment.center,
-                                child: Text("Cancel Order")),
-                            style: OutlinedButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.error,
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
+                        ? Container(
+                            width: 40,
+                            height: 30,
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: const CircularProgressIndicator())
+                        : navigatorData["productData"]["status"] != "DELIVERED"
+                            ? FractionallySizedBox(
+                                widthFactor: 0.5,
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    Utils.simpleDialog(
+                                        context: context,
+                                        heading: "Are you sure?",
+                                        body:
+                                            "This order will be cancelled and deleted permanently.",
+                                        positiveBtnFunction: cancelOrder);
+                                  },
+                                  child: const Align(
+                                      alignment: Alignment.center,
+                                      child: Text("Cancel Order")),
+                                  style: OutlinedButton.styleFrom(
+                                    primary:
+                                        Theme.of(context).colorScheme.error,
+                                    side: BorderSide(
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Container()),
               )
             ],
           ),

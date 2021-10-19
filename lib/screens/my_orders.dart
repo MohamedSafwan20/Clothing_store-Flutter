@@ -45,10 +45,15 @@ class _MyOrdersState extends State<MyOrders> {
                     List pendingOrders = snapshot.data["products"]
                         .where((product) => product["status"] != "DELIVERED")
                         .toList();
+
+                    List deliveredOrders = snapshot.data["products"]
+                        .where((product) => product["status"] == "DELIVERED")
+                        .toList();
+
                     return TabBarView(
                       children: [
                         PendingOrders(productData: pendingOrders),
-                        DeliveredOrders()
+                        DeliveredOrders(productData: deliveredOrders)
                       ],
                     );
                   } else {
