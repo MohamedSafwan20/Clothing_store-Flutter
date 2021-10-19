@@ -39,7 +39,7 @@ class App extends StatelessWidget {
         "/place-order": (context) => const PlaceOrder(),
         "/success-order": (context) => const SuccessfulOrder(),
       },
-      initialRoute: "/success-order",
+      initialRoute: "/login",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         indicatorColor: const Color(0xFF27D308),

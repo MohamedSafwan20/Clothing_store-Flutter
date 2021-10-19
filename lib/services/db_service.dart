@@ -132,6 +132,7 @@ class DbService {
   }
 
   static Future addOrder(
+      String userId,
       String buyerAddress,
       String buyerName,
       String buyerPhone,
@@ -139,16 +140,40 @@ class DbService {
       String productId,
       String productSize) async {
     try {
-      await FirebaseFirestore.instance.collection("orders").add({
-        "buyer_address": buyerAddress,
-        "buyer_name": buyerName,
-        "buyer_phone": buyerPhone,
-        "payment_method": paymentMode,
-        "product_id": FirebaseFirestore.instance.doc("/products/$productId"),
-        "product_size": productSize,
-        "status": "PICKED UP",
-        "order_no": const Uuid().v1(),
-        "created_at": DateTime.now(),
+      await FirebaseFirestore.instance.collection("orders").doc(userId).set({
+        "products": FieldValue.arrayUnion([
+          {
+            "buyer_address": buyerAddress,
+            "buyer_name": buyerName,
+            "buyer_phone": buyerPhone,
+            "payment_method": paymentMode,
+            "product_id":
+                FirebaseFirestore.instance.doc("/products/$productId"),
+            "product_size": productSize,
+            "status": "PICKED UP",
+            "order_no": const Uuid().v1(),
+            "created_at": DateTime.now(),
+          }
+        ])
+      }, SetOptions(merge: true));
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future getAllUserOrders(String userId) async {
+    DocumentSnapshot res =
+        await FirebaseFirestore.instance.collection("orders").doc(userId).get();
+
+    return res.data();
+  }
+
+  static Future deleteOrder(String userId, Map productData) async {
+    try {
+      await FirebaseFirestore.instance.collection("orders").doc(userId).update({
+        "products": FieldValue.arrayRemove([productData])
       });
 
       return true;

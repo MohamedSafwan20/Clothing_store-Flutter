@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class HorizontalTimeline extends StatelessWidget {
-  const HorizontalTimeline({Key? key}) : super(key: key);
+  const HorizontalTimeline({Key? key, required this.status}) : super(key: key);
+
+  final String status;
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +18,15 @@ class HorizontalTimeline extends StatelessWidget {
             axis: TimelineAxis.horizontal,
             alignment: TimelineAlign.center,
             afterLineStyle: const LineStyle(thickness: 2),
-            indicatorStyle: IndicatorStyle(
-                height: 25,
-                color: Theme.of(context).colorScheme.primary,
-                iconStyle: IconStyle(
-                    iconData: Icons.done,
+            indicatorStyle: status.toUpperCase() == "PICKED UP"
+                ? IndicatorStyle(
+                    height: 25,
                     color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 20)),
+                    iconStyle: IconStyle(
+                        iconData: Icons.done,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 20))
+                : const IndicatorStyle(height: 15),
             isFirst: true,
             endChild: Container(
               padding: const EdgeInsets.only(top: 10),
@@ -35,7 +39,15 @@ class HorizontalTimeline extends StatelessWidget {
                 alignment: TimelineAlign.center,
                 afterLineStyle: const LineStyle(thickness: 2),
                 beforeLineStyle: const LineStyle(thickness: 2),
-                indicatorStyle: const IndicatorStyle(height: 15),
+                indicatorStyle: status.toUpperCase() == "ON TRANSIT"
+                    ? IndicatorStyle(
+                        height: 25,
+                        color: Theme.of(context).colorScheme.secondary,
+                        iconStyle: IconStyle(
+                            iconData: Icons.done,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 20))
+                    : const IndicatorStyle(height: 15),
                 endChild: Container(
                   padding: const EdgeInsets.only(top: 10),
                   child: const Text("On Transit"),
@@ -47,7 +59,15 @@ class HorizontalTimeline extends StatelessWidget {
               alignment: TimelineAlign.center,
               afterLineStyle: const LineStyle(thickness: 2),
               beforeLineStyle: const LineStyle(thickness: 2),
-              indicatorStyle: const IndicatorStyle(height: 15),
+              indicatorStyle: status.toUpperCase() == "OUT FOR DELIVERY"
+                  ? IndicatorStyle(
+                      height: 25,
+                      color: Theme.of(context).colorScheme.secondary,
+                      iconStyle: IconStyle(
+                          iconData: Icons.done,
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20))
+                  : const IndicatorStyle(height: 15),
               endChild: Container(
                 padding: const EdgeInsets.only(top: 10),
                 child: const Text("Out for\ndelivery"),
@@ -59,7 +79,15 @@ class HorizontalTimeline extends StatelessWidget {
               axis: TimelineAxis.horizontal,
               alignment: TimelineAlign.center,
               beforeLineStyle: const LineStyle(thickness: 2),
-              indicatorStyle: const IndicatorStyle(height: 15),
+              indicatorStyle: status.toUpperCase() == "DELIVERED"
+                  ? IndicatorStyle(
+                      height: 25,
+                      color: Theme.of(context).colorScheme.secondary,
+                      iconStyle: IconStyle(
+                          iconData: Icons.done,
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20))
+                  : const IndicatorStyle(height: 15),
               isLast: true,
               endChild: Container(
                 padding: const EdgeInsets.only(top: 10),

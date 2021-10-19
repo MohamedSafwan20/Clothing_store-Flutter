@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
+import 'package:gentleman/utils/utils.dart';
 import 'package:gentleman/widgets/error.dart';
 import 'package:gentleman/widgets/loading.dart';
 import 'package:gentleman/widgets/regular_button.dart';
@@ -25,8 +27,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
 
   late Map navigatorData;
 
+  bool _isLoading = false;
+
   void placeOrder() {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
       String paymentMode;
 
       switch (_currentPaymentOption) {
@@ -44,6 +51,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
       }
 
       DbService.addOrder(
+          UserService.getCurrentUserId(),
               _addressController.text,
               _fullNameController.text,
               _phoneNoController.text,
@@ -52,8 +60,14 @@ class _PlaceOrderState extends State<PlaceOrder> {
               navigatorData["productSize"])
           .then((value) {
         if (value) {
+          setState(() {
+            _isLoading = false;
+          });
           Navigator.pushReplacementNamed(context, "/success-order");
         } else {
+          setState(() {
+            _isLoading = false;
+          });
           final snackbar = SnackBar(
             behavior: SnackBarBehavior.floating,
             content: Text(
@@ -64,6 +78,9 @@ class _PlaceOrderState extends State<PlaceOrder> {
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
       }).catchError((_) {
+        setState(() {
+          _isLoading = false;
+        });
         final snackbar = SnackBar(
           behavior: SnackBarBehavior.floating,
           content: Text(
@@ -604,12 +621,31 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 alignment: Alignment.center,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 15.0),
-                                  child: FractionallySizedBox(
-                                      widthFactor: 0.5,
-                                      child: RegularButton(
-                                        onPressed: placeOrder,
-                                        text: "Place Order",
-                                      )),
+                                  child: _isLoading
+                                      ? Container(
+                                          width: 30,
+                                          height: 20,
+                                          padding: const EdgeInsets.only(
+                                              right: 10.0),
+                                          child:
+                                              const CircularProgressIndicator())
+                                      : FractionallySizedBox(
+                                          widthFactor: 0.5,
+                                          child: RegularButton(
+                                            onPressed: () {
+                                              Utils.simpleDialog(
+                                                  context: context,
+                                                  heading: "Place Order",
+                                                  body:
+                                                      "Check information are correct before placing order.",
+                                                  positiveBtnFunction:
+                                                      placeOrder,
+                                                  positiveBtnText:
+                                                      "Place Order",
+                                                  negativeBtnText: "Go Back");
+                                            },
+                                            text: "Place Order",
+                                          )),
                                 ),
                               )
                             ],

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/order_status.dart';
+import 'package:gentleman/widgets/regular_button.dart';
 
 class OrderDetails extends StatefulWidget {
   const OrderDetails({Key? key}) : super(key: key);
@@ -9,8 +12,17 @@ class OrderDetails extends StatefulWidget {
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
+  late Map navigatorData;
+
+  void cancelOrder() {
+    DbService.deleteOrder(
+        UserService.getCurrentUserId(), navigatorData["productData"]);
+  }
+
   @override
   Widget build(BuildContext context) {
+    navigatorData = ModalRoute.of(context)!.settings.arguments as Map;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -23,21 +35,34 @@ class _OrderDetailsState extends State<OrderDetails> {
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
+          height: MediaQuery.of(context).size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // const ImageCarousel(),
-              // const ProductDetailBody(),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
-                child: Text("Order Status",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500)),
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Center(
+                    child: FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: RegularButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, "/product-details", arguments: {
+                            "id": navigatorData["productData"]["product_id"].id
+                          });
+                        },
+                        text: "See Product",
+                      ),
+                    ),
+                  )),
+              OrderStatus(
+                orderNo: navigatorData["productData"]["order_no"],
+                name: navigatorData["productData"]["buyer_name"],
+                address: navigatorData["productData"]["buyer_address"],
+                phoneNo: navigatorData["productData"]["buyer_phone"],
+                paymentMode: navigatorData["productData"]["payment_method"],
+                status: navigatorData["productData"]["status"],
               ),
-              const OrderStatus(),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -45,7 +70,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   child: FractionallySizedBox(
                     widthFactor: 0.5,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: cancelOrder,
                       child: const Align(
                           alignment: Alignment.center,
                           child: Text("Cancel Order")),
