@@ -8,6 +8,7 @@ import 'package:gentleman/screens/order_details.dart';
 import 'package:gentleman/screens/place_order.dart';
 import 'package:gentleman/screens/product_details.dart';
 import 'package:gentleman/screens/product_result.dart';
+import 'package:gentleman/screens/reset_password.dart';
 import 'package:gentleman/screens/search.dart';
 import 'package:gentleman/screens/signup.dart';
 import 'package:gentleman/screens/successful_order.dart';
@@ -38,6 +39,7 @@ class App extends StatelessWidget {
         "/order-details": (context) => const OrderDetails(),
         "/place-order": (context) => const PlaceOrder(),
         "/success-order": (context) => const SuccessfulOrder(),
+        "/reset-password": (context) => const ResetPassword(),
       },
       initialRoute: "/login",
       debugShowCheckedModeBanner: false,

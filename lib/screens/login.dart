@@ -52,13 +52,13 @@ class _LoginState extends State<Login> {
                     })
                   }
                 else
-          {
-            setState(() {
-              error = value["error"];
-              _isLoading = false;
-            })
-          }
-      });
+                  {
+                    setState(() {
+                      error = value["error"];
+                      _isLoading = false;
+                    })
+                  }
+              });
     }
   }
 
@@ -85,15 +85,15 @@ class _LoginState extends State<Login> {
                   children: [
                     error.isNotEmpty
                         ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: (Text(
-                        error,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
-                      )),
-                    )
+                            padding: const EdgeInsets.all(8.0),
+                            child: (Text(
+                              error,
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            )),
+                          )
                         : Container(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -142,21 +142,37 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
+                    FractionallySizedBox(
+                        widthFactor: 0.8,
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/reset-password");
+                              },
+                              child: Text(
+                                "Forgot Password ?",
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ))),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: _isLoading
                             ? const SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: (CircularProgressIndicator()),
-                        )
+                                width: 30,
+                                height: 30,
+                                child: (CircularProgressIndicator()),
+                              )
                             : FractionallySizedBox(
-                          widthFactor: 0.7,
-                          child: (RegularButton(
-                            text: "Login",
-                            onPressed: login,
-                          )),
-                        )),
+                                widthFactor: 0.7,
+                                child: (RegularButton(
+                                  text: "Login",
+                                  onPressed: login,
+                                )),
+                              )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -172,7 +188,7 @@ class _LoginState extends State<Login> {
                               "Create Account",
                               style: TextStyle(
                                   color:
-                                  Theme.of(context).colorScheme.secondary),
+                                      Theme.of(context).colorScheme.secondary),
                             ))
                       ],
                     )

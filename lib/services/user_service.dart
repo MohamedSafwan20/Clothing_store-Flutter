@@ -13,4 +13,8 @@ class UserService {
 
     return userId;
   }
+
+  static Future resetPassword(String email) {
+    return FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
 }
