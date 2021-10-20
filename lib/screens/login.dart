@@ -58,7 +58,12 @@ class _LoginState extends State<Login> {
                       _isLoading = false;
                     })
                   }
-              });
+              })
+          .catchError((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
     }
   }
 

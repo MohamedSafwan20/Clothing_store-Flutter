@@ -181,4 +181,45 @@ class DbService {
       return false;
     }
   }
+
+  static Future addLike(String userId, String productId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("products")
+          .doc(productId)
+          .update({
+        "liked_by": FieldValue.arrayUnion([userId]),
+        "likes": FieldValue.increment(1)
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future removeLike(String userId, String productId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("products")
+          .doc(productId)
+          .update({
+        "liked_by": FieldValue.arrayRemove([userId]),
+        "likes": FieldValue.increment(-1)
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future getLikedUsers(String productId) async {
+    DocumentSnapshot res = await FirebaseFirestore.instance
+        .collection("products")
+        .doc(productId)
+        .get();
+
+    return res.data();
+  }
 }

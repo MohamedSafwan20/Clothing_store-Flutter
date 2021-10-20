@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gentleman/services/db_service.dart';
+import 'package:gentleman/services/user_service.dart';
 import 'package:gentleman/widgets/horizontal_timeline.dart';
 
 class OrderStatus extends StatefulWidget {
   const OrderStatus(
       {Key? key,
+      required this.productId,
       this.orderNo = "",
       this.paymentMode = "",
       this.name = "",
@@ -12,6 +15,7 @@ class OrderStatus extends StatefulWidget {
       required this.status})
       : super(key: key);
 
+  final String productId;
   final String orderNo;
   final String name;
   final String address;
@@ -146,7 +150,97 @@ class _OrderStatusState extends State<OrderStatus> {
               ),
               HorizontalTimeline(
                 status: widget.status,
-              )
+              ),
+              widget.status == "DELIVERED"
+                  ? Container(
+                      padding: const EdgeInsets.all(10),
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Love this product?",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 17),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Give it a",
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              FutureBuilder(
+                                  future:
+                                      DbService.getLikedUsers(widget.productId),
+                                  builder: (context, AsyncSnapshot snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      if (snapshot.hasData) {
+                                        bool isUserAlreadyLiked = false;
+                                        snapshot.data["liked_by"]
+                                            ?.forEach((userId) {
+                                          if (userId ==
+                                              UserService.getCurrentUserId()) {
+                                            isUserAlreadyLiked = true;
+                                          }
+                                        });
+                                        return isUserAlreadyLiked
+                                            ? IconButton(
+                                                icon: Icon(
+                                                  Icons.thumb_up,
+                                                  size: 24,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                ),
+                                                onPressed: () {
+                                                  DbService.removeLike(
+                                                          UserService
+                                                              .getCurrentUserId(),
+                                                          widget.productId)
+                                                      .then((value) {
+                                                    if (value) {
+                                                      Navigator.pop(context);
+                                                    }
+                                                  });
+                                                },
+                                              )
+                                            : IconButton(
+                                                icon: Icon(
+                                                  Icons.thumb_up_outlined,
+                                                  size: 24,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                ),
+                                                onPressed: () {
+                                                  DbService.addLike(
+                                                          UserService
+                                                              .getCurrentUserId(),
+                                                          widget.productId)
+                                                      .then((value) {
+                                                    if (value) {
+                                                      Navigator.pop(context);
+                                                    }
+                                                  });
+                                                },
+                                              );
+                                      }
+                                    }
+                                    return Container();
+                                  })
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : Container()
             ],
           ),
         ),

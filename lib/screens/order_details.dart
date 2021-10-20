@@ -87,6 +87,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   )),
               OrderStatus(
+                productId: navigatorData["productData"]["product_id"].id,
                 orderNo: navigatorData["productData"]["order_no"],
                 name: navigatorData["productData"]["buyer_name"],
                 address: navigatorData["productData"]["buyer_address"],
