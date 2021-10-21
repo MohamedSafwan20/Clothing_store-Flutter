@@ -103,7 +103,8 @@ class _ProductResultCardState extends State<ProductResultCard> {
                                   ),
                                 ),
                                 TextSpan(
-                                    text: widget.productData["likes"],
+                                    text:
+                                        widget.productData["likes"].toString(),
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme

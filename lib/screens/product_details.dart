@@ -8,6 +8,7 @@ import 'package:gentleman/widgets/image_carousel.dart';
 import 'package:gentleman/widgets/loading.dart';
 import 'package:gentleman/widgets/navbar.dart';
 import 'package:gentleman/widgets/regular_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -31,12 +32,17 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   void verifyEmail() {
     currentUser.sendEmailVerification();
-    Utils.showSnackbar(
-        context: context,
-        text:
-            "We sent a verification mail to your gmail. Please verify it, then login again.",
-        textColor: Theme.of(context).colorScheme.secondary);
-    Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+    FirebaseAuth.instance.signOut();
+    SharedPreferences.getInstance().then((value) {
+      value.remove("userId");
+      Utils.showSnackbar(
+          context: context,
+          text:
+              "We sent a verification mail to your email. Please verify it, then login again.",
+          textColor: Theme.of(context).colorScheme.secondary);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+    });
   }
 
   void addToCart(String productId) {
@@ -263,7 +269,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                               ),
                               TextSpan(
-                                  text: snapshot.data["likes"],
+                                  text: snapshot.data["likes"].toString(),
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
